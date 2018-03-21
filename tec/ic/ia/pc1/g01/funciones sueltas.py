@@ -16,7 +16,6 @@ def csv_a_listas(ruta_csv):
     return dataframe.values.tolist()
 
 
-
 def obtener_indicadores_canton(canton, indicadores):
 
     """

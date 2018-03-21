@@ -1,0 +1,6 @@
+setup.py
+tec.ic.ia.pc1.g01.egg-info/PKG-INFO
+tec.ic.ia.pc1.g01.egg-info/SOURCES.txt
+tec.ic.ia.pc1.g01.egg-info/dependency_links.txt
+tec.ic.ia.pc1.g01.egg-info/requires.txt
+tec.ic.ia.pc1.g01.egg-info/top_level.txt
