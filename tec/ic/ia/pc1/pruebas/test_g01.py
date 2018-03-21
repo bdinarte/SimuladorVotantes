@@ -91,5 +91,5 @@ def test_obtener_datos_junta():
             [99, "HEREDIA", "FLORES", 123, 999]
             ]
 
-    fila = obtener_fila_por_elemento1(junta, actas)
+    fila = obtener_datos_de_junta(junta, actas)
     assert fila == [233,"SAN JOSE", "ASERRI", 111, 1]
