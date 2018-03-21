@@ -35,7 +35,7 @@ def test_obtener_indicadores_canton():
         ["GUANACASTE", "LIBERIA", "62 987", "1436.5"]
     ]
 
-    fila = obtener_indicadores_canton(canton, indicadores)
+    fila = obtener_fila_por_elemento1(canton, indicadores)
     assert fila == ["ALAJUELA", "ATENAS", "25 460", "127.2"]
 
 # ----------------------------------------------------------------------------------------------------------------------
