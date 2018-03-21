@@ -44,7 +44,7 @@ def test_obtener_indicadores_canton():
 def test_convertir_relacion_a_porcentaje():
 
     """
-    Hay 92 X por cada 100 Y. Por tanto, los porcentajes son 48 y 54 respectivamente
+    Hay 92 X por cada 100 Y. Por tanto, los porcentajes son 48 y 52 respectivamente
     Además, ambos porcentajes deben sumar 100
     """
 
