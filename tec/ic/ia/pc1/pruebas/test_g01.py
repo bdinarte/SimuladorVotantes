@@ -29,14 +29,14 @@ def test_obtener_indicadores_canton():
 
     canton = "ATENAS"
     indicadores = [
-        ["ALAJUELA", "GRECIA", "76 898", "395.7"],
-        ["ALAJUELA", "ATENAS", "25 460", "127.2"],
-        ["HEREDIA", "FLORES", "20 037", "7"],
-        ["GUANACASTE", "LIBERIA", "62 987", "1436.5"]
+        ["GRECIA", "ALAJUELA", "76 898", "395.7"],
+        ["ATENAS", "ALAJUELA", "25 460", "127.2"],
+        ["FLORES", "HEREDIA", "20 037", "7"],
+        ["LIBERIA", "GUANACASTE", "62 987", "1436.5"]
     ]
 
     fila = obtener_fila_por_elemento1(canton, indicadores)
-    assert fila == ["ALAJUELA", "ATENAS", "25 460", "127.2"]
+    assert fila == ["ATENAS", "ALAJUELA", "25 460", "127.2"]
 
 # ----------------------------------------------------------------------------------------------------------------------
 
