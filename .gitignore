@@ -1,3 +1,5 @@
 dist/
 \.idea/
 tec.ic.ia.*
+
+tec/ic/ia/pc1/__pycache__/
