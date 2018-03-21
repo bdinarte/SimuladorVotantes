@@ -76,3 +76,20 @@ def test_convertir_relacion_a_porcentaje():
     assert porcentajes[0] + porcentajes[1] == 1
 
 # ----------------------------------------------------------------------------------------------------------------------
+
+def test_obtener_datos_junta():
+
+    """
+    Dado un numero de junta, retorna la fila con los votos de la misma
+    Debe obtenerse unicamente la segunda fila que corresponde a la 233
+    """
+
+    junta = 233
+    actas = [
+            [1,"ALAJUELA", "ATENAS", 15, 20],
+            [233,"SAN JOSE", "ASERRI", 111, 1],
+            [99, "HEREDIA", "FLORES", 123, 999]
+            ]
+
+    fila = obtener_fila_por_elemento1(junta, actas)
+    assert fila == [233,"SAN JOSE", "ASERRI", 111, 1]

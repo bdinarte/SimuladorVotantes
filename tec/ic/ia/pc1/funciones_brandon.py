@@ -27,6 +27,7 @@ def csv_a_listas(ruta_csv):
         exit(-1)
 
 
+# Tiene como objetivo obtener una junta o un canton, desde sus respectivos datos
 
 def obtener_fila_por_elemento1(valor_col_1, datos):
 
@@ -94,6 +95,3 @@ def convertir_relacion_a_porcentaje(numero_x_cada_100):
     except Exception as error:
         print('convertir_relacion_a_porcentaje: ' + str(error))
         exit(-1)
-
-
-
