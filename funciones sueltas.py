@@ -3,6 +3,7 @@ import pandas
 
 
 path = 'indicadores cantonales.csv'
+actas_ordenadas = 'ActasOrdenadas.csv'
 
 
 def csv_a_listas(ruta_csv):
