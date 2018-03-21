@@ -7,7 +7,7 @@ from setuptools import setup
 setup(name="tec.ic.ia.pc1.g01",
       description="Inteligencia Artificial: Proyecto Corto I",
       long_description="Generador de datos según el Estado de la Nación",
-      version="0.1.0",
+      version="0.1.1",
       author="Julian Salinas, Brandon Dinarte, Armando López",
       license="GNU General Public License v3.0",
       keywords=['tec', 'ic', 'ia', "g01"],

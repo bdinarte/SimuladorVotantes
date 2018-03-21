@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------------------------------------------------
-from g01 import generar_muestra_pais
+
 from funciones_armando import *
 from funciones_brandon import *
 
