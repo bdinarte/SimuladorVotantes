@@ -1,0 +1,7 @@
+dist/
+\.idea/
+tec.ic.ia.*
+
+tec/ic/ia/pc1/__pycache__/
+
+\.pytest_cache/v/cache/
