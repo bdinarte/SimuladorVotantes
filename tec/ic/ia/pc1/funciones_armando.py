@@ -1,4 +1,7 @@
-# Abrir el editor desde la carpeta g01 de lo contrario se van a crear los __init__.py cada vez que se cree un archivo.
+# ----------------------------------------------------------------------------------------------------------------------
+
+from funciones_julian import *
+from funciones_brandon import *
 
 # ----------------------------------------------------------------------------------------------------------------------
 

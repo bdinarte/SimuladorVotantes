@@ -1,9 +1,10 @@
-
 import pandas
 
+from funciones_julian import *
+from funciones_armando import *
 
-path = 'indicadores cantonales.csv'
-actas_ordenadas = 'ActasOrdenadas.csv'
+path = 'archivos/indicadores_cantonales.csv'
+actas_ordenadas = 'archivos/actas_ordenadas.csv'
 
 
 def csv_a_listas(ruta_csv):
@@ -26,7 +27,6 @@ def obtener_indicadores_canton(canton, indicadores):
     return fila[0]
 
 
-
 def convertir_relacion_a_porcentaje(numero_x_cada_100):
 
     """
@@ -39,4 +39,3 @@ def convertir_relacion_a_porcentaje(numero_x_cada_100):
     porcentaje1 = numero_x_cada_100/(numero_x_cada_100 + 100)
 
     return porcentaje1, 1 - porcentaje1
-

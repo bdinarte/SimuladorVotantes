@@ -1,9 +1,15 @@
-# Abrir el editor desde la carpeta g01 de lo contrario se van a crear los __init__.py cada vez que se cree un archivo.
+# Funciones solicitadas en la especificación
 
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-def hello():
-    print("hola julian")
+def generar_muestra_pais(n):
+    return "generar_muestra_pais(" + n + ")"
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+
+def generar_muestra_provincia(n, nombre_provincia):
+    return "generar_muestra_provincia(" + n + ", " + nombre_provincia + ")"
 
 # ----------------------------------------------------------------------------------------------------------------------
