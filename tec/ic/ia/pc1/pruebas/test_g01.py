@@ -96,22 +96,22 @@ def test_obtener_datos_junta():
 
 # -----------------------------------------------------------------------------
 
-def test_random_con_porcentajes():
+def test_random_con_pesos():
 
     """
     Se define la semilla del random para obtener datos consistentes
-    Se espera que el random genere resultados acorde a los porcentajes
+    Se espera que el random genere resultados acorde a los pesos
     """
 
     seed(105)
     resultados = []
-    atributos = ['atributo1', 'atributo2', 'atributo3', 'atributo4']
+    atributos = ['tipo1', 'tipo2', 'tipo3', 'tipo4']
     porcentajes = [5, 5, 80, 10]
 
     for c in range(0, 10):
-        resultados.append(random_con_porcentajes(atributos, porcentajes))
+        resultados.append(random_con_pesos(atributos, porcentajes))
 
-    assert resultados == ['atributo4', 'atributo3', 'atributo4', 'atributo3',
-                          'atributo1', 'atributo3', 'atributo3', 'atributo4',
-                          'atributo3', 'atributo3'
-                          ]
+    print(resultados)
+    assert resultados == ['tipo4', 'tipo3', 'tipo4', 'tipo3', 'tipo1',
+                          'tipo3', 'tipo3', 'tipo4', 'tipo3', 'tipo3'
+                         ]
