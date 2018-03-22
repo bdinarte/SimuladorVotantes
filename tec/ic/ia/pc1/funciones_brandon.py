@@ -109,9 +109,9 @@ def convertir_relacion_a_porcentaje(numero_x_cada_100):
         if numero_x_cada_100 <= 0:
             raise Exception('Entrada invalida.')
 
-        porcentaje1 = numero_x_cada_100 / (numero_x_cada_100 + 100)
+        porcentaje1 = numero_x_cada_100 / (numero_x_cada_100 + 100) * 100
 
-        return porcentaje1, 1 - porcentaje1
+        return porcentaje1, 100 - porcentaje1
 
     except Exception as error:
         print('convertir_relacion_a_porcentaje: ' + str(error))
@@ -129,4 +129,12 @@ def random_general(lista_atributos):
     :return: uno de los tipos de los candidatos, i.e 'tipo1'
     """
 
-    pass
+    try:
+        total = sum(porcent for tipo, porcent in lista_atributos)
+        if round(total, 1) != 1:
+            raise Exception('Los porcentajes no suman 100%.')
+
+
+    except Exception as error:
+        print('random_general: ' + str(error))
+        exit(-1)
