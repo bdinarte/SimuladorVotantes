@@ -10,6 +10,7 @@ actas_ordenadas = 'archivos/actas_ordenadas.csv'
 
 
 
+
 def csv_a_listas(ruta_csv):
 
     """
@@ -27,6 +28,9 @@ def csv_a_listas(ruta_csv):
         exit(-1)
 
 
+
+
+# Tiene como objetivo obtener una junta o un canton, desde sus respectivos datos
 
 def obtener_fila_por_elemento1(valor_col_1, datos):
 
@@ -48,6 +52,23 @@ def obtener_fila_por_elemento1(valor_col_1, datos):
     except Exception as error:
         print('obtener_fila_por_elemento1: ' + str(error))
         exit(-1)
+
+
+
+
+def obtener_datos_de_junta(junta, datos):
+
+    """
+    Wrapper para obtener una junta, pues no existe la junta 5402
+    :param junta: un numero de junta existente
+    :param datos: lista de listas con los datos
+    :return: la lista con los datos de la junta correspondiente
+    """
+
+    if junta == 5402: return []
+    return obtener_fila_por_elemento1(junta, datos)
+
+
 
 
 def obtener_indicadores_provincia(provincia, datos):
@@ -73,6 +94,7 @@ def obtener_indicadores_provincia(provincia, datos):
 
 
 
+
 def convertir_relacion_a_porcentaje(numero_x_cada_100):
 
     """
@@ -87,9 +109,9 @@ def convertir_relacion_a_porcentaje(numero_x_cada_100):
         if numero_x_cada_100 <= 0:
             raise Exception('Entrada invalida.')
 
-        porcentaje1 = numero_x_cada_100 / (numero_x_cada_100 + 100)
+        porcentaje1 = numero_x_cada_100 / (numero_x_cada_100 + 100) * 100
 
-        return porcentaje1, 1 - porcentaje1
+        return porcentaje1, 100 - porcentaje1
 
     except Exception as error:
         print('convertir_relacion_a_porcentaje: ' + str(error))
@@ -97,3 +119,22 @@ def convertir_relacion_a_porcentaje(numero_x_cada_100):
 
 
 
+
+def random_general(lista_atributos):
+
+    """
+    Espera una lista de atributos y su porcentaje en tuplas y genera un aleatorio
+    :param lista_atributos: candidatos a escogerse
+                            tiene la forma: [('tipo1', %), ('tipo2', %)]
+    :return: uno de los tipos de los candidatos, i.e 'tipo1'
+    """
+
+    try:
+        total = sum(porcent for tipo, porcent in lista_atributos)
+        if round(total, 1) != 1:
+            raise Exception('Los porcentajes no suman 100%.')
+
+
+    except Exception as error:
+        print('random_general: ' + str(error))
+        exit(-1)
