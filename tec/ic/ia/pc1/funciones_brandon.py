@@ -133,16 +133,20 @@ def random_con_porcentajes(lista_atributos):
 
     try:
         numero_random = randint(0, 9999)
-        porcent_acumulado = lista_atributos[0][1]*100
+        porcent_acumulado = 0
 
         for tipo, porcent in lista_atributos:
+            porcent_acumulado += porcent * 100
             if numero_random < porcent_acumulado:
                 return tipo, numero_random
-            porcent_acumulado += porcent*100
+
 
     except Exception as error:
         print('random_general: ' + str(error))
         exit(-1)
+
+
+
 
 def random_con_porcentajes_numpy(lista_atributos, lista_porcentajes):
 
@@ -160,6 +164,10 @@ def random_con_porcentajes_numpy(lista_atributos, lista_porcentajes):
         print('random_general: ' + str(error))
         exit(-1)
 
+
+from time import time
+start_time = time()
+
 """
 l = []
 for i in range(1,100000):
@@ -171,3 +179,5 @@ l = []
 for i in range(1,100000):
     l.append(random_con_porcentajes([('1',10),('2',30),('3',60)]))
 
+print(l[:100])
+print( time() - start_time )
