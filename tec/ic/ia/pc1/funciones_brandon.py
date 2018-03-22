@@ -4,7 +4,7 @@ from funciones_armando import *
 
 from sys import exit
 from pandas import read_csv
-from random import randint
+from random import randint, seed
 
 indicadores_cantonales = 'archivos/indicadores_cantonales.csv'
 actas_ordenadas = 'archivos/actas_ordenadas.csv'
@@ -121,7 +121,7 @@ def convertir_relacion_a_porcentaje(numero_x_cada_100):
 
 
 
-def random_general(lista_atributos):
+def random_con_porcentajes(lista_atributos):
 
     """
     Espera una lista de atributos y su porcentaje en tuplas y genera un aleatorio
@@ -131,11 +131,22 @@ def random_general(lista_atributos):
     """
 
     try:
-        pass
+        numero_random = randint(0, 9999)
+        porcent_acumulado = lista_atributos[0][1]*100
+
+        for tipo, porcent in lista_atributos:
+            if numero_random < porcent_acumulado:
+                return tipo, numero_random
+            porcent_acumulado += porcent*100
 
     except Exception as error:
         print('random_general: ' + str(error))
         exit(-1)
 
-from random import uniform as rng
-from collections import Counter as count
+"""
+l = []
+for i in range(1,100000):
+
+    l.append(random_con_porcentajes([('1',10),('2',30),('3',60)]))
+
+"""
