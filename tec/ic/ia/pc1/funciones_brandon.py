@@ -5,6 +5,7 @@ from funciones_armando import *
 from sys import exit
 from pandas import read_csv
 from random import randint, seed
+from numpy.random import choice
 
 indicadores_cantonales = 'archivos/indicadores_cantonales.csv'
 actas_ordenadas = 'archivos/actas_ordenadas.csv'
@@ -143,10 +144,30 @@ def random_con_porcentajes(lista_atributos):
         print('random_general: ' + str(error))
         exit(-1)
 
+def random_con_porcentajes_numpy(lista_atributos, lista_porcentajes):
+
+    """
+    Espera una lista de atributos y su porcentaje en tuplas y genera un aleatorio
+    :param lista_atributos: lista de atributos posibles
+    :param lista_porcentajes: lista de porcentajes para cada atributo
+    :return: uno de los tipos de los candidatos, i.e 'tipo1'
+    """
+
+    try:
+        return choice(lista_atributos, p=lista_porcentajes)
+
+    except Exception as error:
+        print('random_general: ' + str(error))
+        exit(-1)
+
 """
 l = []
 for i in range(1,100000):
+    l.append(random_con_porcentajes_numpy(['tipo1','tipo2','tipo3'], [0.1,0.3,0.6]))
+    
+"""
 
+l = []
+for i in range(1,100000):
     l.append(random_con_porcentajes([('1',10),('2',30),('3',60)]))
 
-"""
