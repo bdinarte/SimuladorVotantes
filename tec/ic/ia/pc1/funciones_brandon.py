@@ -168,16 +168,17 @@ def random_con_porcentajes_numpy(lista_atributos, lista_porcentajes):
 from time import time
 start_time = time()
 
-"""
+
 l = []
 for i in range(1,100000):
-    l.append(random_con_porcentajes_numpy(['tipo1','tipo2','tipo3'], [0.1,0.3,0.6]))
+    l.append(random_con_porcentajes_numpy(['1','2','3'], [0.1,0.3,0.6]))
     
 """
 
 l = []
 for i in range(1,100000):
     l.append(random_con_porcentajes([('1',10),('2',30),('3',60)]))
+"""
 
 print(l[:100])
 print( time() - start_time )
