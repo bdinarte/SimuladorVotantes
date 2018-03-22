@@ -32,8 +32,6 @@ def csv_a_listas(ruta_csv):
 
 
 
-# Tiene como objetivo obtener una junta o un canton, desde sus respectivos datos
-
 def obtener_fila_por_elemento1(valor_col_1, datos):
 
     """
@@ -78,7 +76,8 @@ def obtener_indicadores_provincia(provincia, datos):
     """
     Requiere acceso a una lista de listas con los indicadores.
     :param provincia: nombre de la provincia, i.e 'SAN JOSE' 'CARTAGO'
-    :param datos: Lista de listas con los indicadores cantonales, un canton o provincia por elemento
+    :param datos: Lista de listas con los indicadores cantonales, un canton o
+                  provincia por elemento
     :return: Lista con los indicadores de la provincia
     """
 
@@ -97,21 +96,21 @@ def obtener_indicadores_provincia(provincia, datos):
 
 
 
-def convertir_relacion_a_porcentaje(numero_x_cada_100):
+def convertir_relacion_a_porcentaje(num_x_cada_100):
 
     """
     Toma una relacion como N elementos por cada 100 elementos de tipo2
     y la convierte a dos porcentajes equivalentes.
-    :param numero_x_cada_100: cantidad de elementos del tipo 1
+    :param num_x_cada_100: cantidad de elementos del tipo 1
     :return: una tupla ordenada con los porcentajes para cada tipo
     """
 
     try:
 
-        if numero_x_cada_100 <= 0:
+        if num_x_cada_100 <= 0:
             raise Exception('Entrada invalida.')
 
-        porcentaje1 = round(numero_x_cada_100 / (numero_x_cada_100 + 100) * 100, 2)
+        porcentaje1 = round(num_x_cada_100 / (num_x_cada_100 + 100) * 100, 2)
 
         return porcentaje1, 100 - porcentaje1
 
@@ -122,63 +121,28 @@ def convertir_relacion_a_porcentaje(numero_x_cada_100):
 
 
 
-def random_con_porcentajes(lista_atributos):
+def random_con_porcentajes(atributos, porcentajes):
 
     """
-    Espera una lista de atributos y su porcentaje en tuplas y genera un aleatorio
-    :param lista_atributos: candidatos a escogerse
-                            tiene la forma: [('tipo1', %), ('tipo2', %)]
-    :return: uno de los tipos de los candidatos, i.e 'tipo1'
+    Genera aleatorio segun porcentajes por cada elemento
+    :param atributos: lista de elementos candidatos a escogerse
+    :param porcentajes: lista de porcentajes correspondientes a cada elemento
+    :return: uno de los elementos candidatos, i.e 'elemento1'
     """
 
     try:
+        if sum(porcentajes) != 100:
+            raise Exception('Los porcentajes no suman 100%')
+
         numero_random = randint(0, 9999)
         porcent_acumulado = 0
 
-        for tipo, porcent in lista_atributos:
-            porcent_acumulado += porcent * 100
+        for i in range(0, len(atributos)):
+            porcent_acumulado += porcentajes[i] * 100
             if numero_random < porcent_acumulado:
-                return tipo, numero_random
+                return atributos[i]
 
 
     except Exception as error:
         print('random_general: ' + str(error))
         exit(-1)
-
-
-
-
-def random_con_porcentajes_numpy(lista_atributos, lista_porcentajes):
-
-    """
-    Espera una lista de atributos y su porcentaje en tuplas y genera un aleatorio
-    :param lista_atributos: lista de atributos posibles
-    :param lista_porcentajes: lista de porcentajes para cada atributo
-    :return: uno de los tipos de los candidatos, i.e 'tipo1'
-    """
-
-    try:
-        return choice(lista_atributos, p=lista_porcentajes)
-
-    except Exception as error:
-        print('random_general: ' + str(error))
-        exit(-1)
-
-
-from time import time
-start_time = time()
-
-
-l = []
-for i in range(1,100000):
-    l.append(random_con_porcentajes_numpy(['1','2','3'], [0.1,0.3,0.6]))
-    
-"""
-
-l = []
-for i in range(1,100000):
-    l.append(random_con_porcentajes([('1',10),('2',30),('3',60)]))
-"""
-
-print(l[:100])
-print( time() - start_time )
