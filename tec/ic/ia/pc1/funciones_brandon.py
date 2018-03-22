@@ -4,6 +4,7 @@ from funciones_armando import *
 
 from sys import exit
 from pandas import read_csv
+from random import randint
 
 indicadores_cantonales = 'archivos/indicadores_cantonales.csv'
 actas_ordenadas = 'archivos/actas_ordenadas.csv'
@@ -109,7 +110,7 @@ def convertir_relacion_a_porcentaje(numero_x_cada_100):
         if numero_x_cada_100 <= 0:
             raise Exception('Entrada invalida.')
 
-        porcentaje1 = numero_x_cada_100 / (numero_x_cada_100 + 100) * 100
+        porcentaje1 = round(numero_x_cada_100 / (numero_x_cada_100 + 100) * 100, 2)
 
         return porcentaje1, 100 - porcentaje1
 
@@ -130,11 +131,11 @@ def random_general(lista_atributos):
     """
 
     try:
-        total = sum(porcent for tipo, porcent in lista_atributos)
-        if round(total, 1) != 1:
-            raise Exception('Los porcentajes no suman 100%.')
-
+        pass
 
     except Exception as error:
         print('random_general: ' + str(error))
         exit(-1)
+
+from random import uniform as rng
+from collections import Counter as count
