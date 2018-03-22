@@ -7,8 +7,8 @@ from pandas import read_csv
 from random import randint, seed
 from numpy.random import choice
 
-indicadores_cantonales = 'archivos/indicadores_cantonales.csv'
-actas_ordenadas = 'archivos/actas_ordenadas.csv'
+indicadores_cantonales = 'archivos/indicadores.csv'
+actas_ordenadas = 'archivos/actas.csv'
 
 
 
@@ -143,3 +143,4 @@ def random_con_pesos(atributos, pesos):
     except Exception as error:
         print('random_general: ' + str(error))
         exit(-1)
+

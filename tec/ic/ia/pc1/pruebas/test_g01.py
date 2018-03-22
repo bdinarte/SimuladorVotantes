@@ -14,7 +14,7 @@ def test_csv_a_listas():
     """
     Se comprueba que el archivo se abrió correctamente
     """
-    listas = csv_a_listas("../archivos/actas_ordenadas.csv")
+    listas = csv_a_listas("../archivos/actas.csv")
     assert listas is not None and listas is not []
 
 # -----------------------------------------------------------------------------

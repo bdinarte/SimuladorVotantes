@@ -12,7 +12,7 @@ from time import time
 
 def test_obtener_fila_por_elemento1():
 
-    actas_ordenadas = '../archivos/actas_ordenadas.csv'
+    actas_ordenadas = '../archivos/actas.csv'
     datos = csv_a_listas(actas_ordenadas)
 
     start_time = time()
