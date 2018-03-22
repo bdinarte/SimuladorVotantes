@@ -140,7 +140,7 @@ def random_con_porcentajes(atributos, porcentajes):
         for i in range(0, len(atributos)):
             porcent_acumulado += porcentajes[i] * 100
             if numero_random < porcent_acumulado:
-                return atributos[i], numero_random
+                return atributos[i]
 
 
     except Exception as error:
