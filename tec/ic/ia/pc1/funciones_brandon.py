@@ -150,4 +150,4 @@ def random_con_pesos(atributos, pesos):
 
 def random_indicadores(datos_indicadores, canton):
 
-    return []
+    return [1,'hombre',1,1,1,1,1,1,1]
