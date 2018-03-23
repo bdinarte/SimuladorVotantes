@@ -1,11 +1,8 @@
 # -----------------------------------------------------------------------------
 
-import random
-import numpy as np
-from time import time
-
 import pandas as pd
 from fuentes import Fuente
+from funciones_brandon import *
 from string import ascii_uppercase as ascii
 
 # -----------------------------------------------------------------------------
@@ -17,8 +14,8 @@ pd.set_option("display.max_rows", 10)
 # -----------------------------------------------------------------------------
 
 # Variables para obtener los csv
-ruta_actas_ordenadas = 'archivos/actas.csv'
-ruta_indicadores_cantonales = 'archivos/indicadores.csv'
+ruta_actas = 'archivos/actas.csv'
+ruta_indicadores = 'archivos/indicadores.csv'
 
 # -----------------------------------------------------------------------------
 
@@ -41,13 +38,14 @@ def crear_encabezado(n_columnas):
 # -----------------------------------------------------------------------------
 
 
-def obtener_dataframe(ruta_csv):
+def obtener_dataframe(ruta_csv, ordenar=False, encabezado=False):
 
     """
     Lee un dataframe desde un csv. Como el encabezado no nos sirve, se ignora
     @param ruta_csv: nombre completo del archivo csv
-    @param columnas: lista con el nombre de cada columna
-    @param index: cual de las columnas se utiliza para realizar busquedas
+    @param ordenar: Se debe o no ordenar las filas por la primera columna
+    @param encabezado: Boolean que dice si dejar o no el encabezado leído
+    en el csv
     @return: Dataframe donde la columna 0 son los nombres de los cantones, la
     columna corresponde a la provincia de ese canton.
     """
@@ -56,153 +54,181 @@ def obtener_dataframe(ruta_csv):
 
         # El nombre de las columnas es muy largo, por tanto, se remplazan
         # con letras
-        dataframe = pd.read_csv(ruta_csv, skiprows=[0],
-                                header=None, names=columnas)
+        if encabezado:
+            dataframe = pd.read_csv(ruta_csv)
+
+        else:
+
+            # Si no se indica encabezado se crea uno por defecto
+            dataframe = pd.read_csv(ruta_csv, skiprows=[0], header=None)
+            dataframe.columns = crear_encabezado(len(dataframe.columns))
+
+        # Ordena las filas por la primera columna
+        if ordenar:
+            dataframe = dataframe.sort_values(by="A")
 
         # Se coloca cual columna se utiliza para busquedas
-        return dataframe.set_index("A")
+        return dataframe.set_index(dataframe.columns[0])
 
     except FileNotFoundError:
-        print(Fuente.ROJO + "obtener_dataframe()" + Fuente.FIN)
+        print(Fuente.ROJO + "Archivo no encontrado: " + ruta_csv + Fuente.FIN)
+        exit(-1)
 
 # -----------------------------------------------------------------------------
 
 
-def ordenar_datos_x_columna(datos, columna_n):
+def obtener_datos_canton(df, canton):
 
     """
-    Utilizada para ordenar los datos y hacer las extracciones de datos
-    de forma más eficiente.
-    @param datos: Dataframe resultado de leer un archivo csv
-    @param columna_n: Columna por la que se quiere ordenar
-    @return: Dataframe que se recibió de entrada pero con las filas en orden
+    A partir de un dataframe obtiene la fila que contiene la fila con
+    con indicadores para el cantón especificado.
+    @param df: Dataframe resultado de leer indicadores.csv
+    @param canton: Nombre del cantón del que se necesitan sus indicadores
+    @return: lista relacionada con el cantón
     """
 
-    return datos.sort_values(by=columna_n)
+    try:
+        fila_canton = df.loc[canton]
+        return [canton] + fila_canton.values.tolist()
+    except KeyError:
+        print(Fuente.ROJO + "Cantón no encontrado: " + canton + Fuente.FIN)
+        exit(-1)
 
 # -----------------------------------------------------------------------------
 
 
-def obtener_datos_canton(datos, canton):
+def obtener_datos_junta(df, n_junta):
 
     """
-    A partir de un dataframe obtiene la fila que contiene los indicadores
-    para el canton especificado.
-    @param datos: Dataframe resultado de leer un archivo csv
-    @param canton: Nombre del canton del que se necesitan sus indicadores
-    @return: Dataframe de una fila que contiene los indicadores
+    Obtener una fila según el número de junta
+    @param df: Dataframe resultado de leer actas.csv
+    @param n_junta: numero de junta
+    @return: lista relacionada con la junta
     """
 
-    # La columna 0 es donde se encuentra el cantón
-    filas = datos["A"].isin([canton])
-
-    # Tomar todas las filas donde la columna 0 sea el cantón
-    return datos[filas]
-
+    try:
+        lista_junta = df.loc[n_junta] if n_junta != 5402 else []
+        return [n_junta] + lista_junta.values.tolist()
+    except KeyError:
+        print(Fuente.ROJO + "Junta no encontrada: " + str(n_junta) + Fuente.FIN)
+        exit(-1)
 
 # -----------------------------------------------------------------------------
 
-def obtener_datos_juntas_provincia(datos, provincia):
+
+def obtener_datos_juntas_provincia(df, provincia):
 
     """
-    A partir de un dataframe obtiene los indicadores de todos los cantones
+    A partir de un dataframe obtiene las filas de todas las juntas
     que pertenecen a una provincia.
-    @param datos: Dataframe resultado de leer un archivo csv
-    @param provincia: Nombre de la provincia de la que se necesitan los
-    indicadores de todos sus cantones
-    @return: Dataframe que contiene los indicadores de todos los cantones de
-    una provincia
+    @param df: Dataframe resultado de leer actas.csv
+    @param provincia: Nombre de la provincia de la que se necesitan los datos
+    de las juntas
+    @return: Dataframe que contiene todas las juntas de la provincia
     """
 
-    # La columna 1 es donde se encuentra la provincia
-    filas = datos["B"].isin([provincia])
-
-    # Tomar todas las filas donde la columna 1 sea la provincia
-    return datos[filas]
-
-# -----------------------------------------------------------------------------
-
-def obtener_datos_junta(datos, junta):
-
-    """
-    Obti
-    @param datos: Dataframe resultado de leer un archivo csv
-    @param junta: numero de junta
-    @return: pd.Series (fila) relacionada con la junta
-    """
-    return datos.loc[junta]
+    try:
+        return df.loc[df.PROVINCIA == provincia]
+    except KeyError:
+        print(Fuente.ROJO + "Provincia no encontrada: " + provincia + Fuente.FIN)
+        exit(-1)
 
 # -----------------------------------------------------------------------------
 
 
-def test_indicadores():
+def obtener_total_votos(df):
+
+    """
+    A partir del dataframe de actas, extrae la columna de votos totales y
+    la retorna como una lista
+    @param df: Dataframe resultado de leer actas.csv
+    @return: Lista de python con los votos totales
+    """
+
+    df_total_votos = df["VOTOS RECIBIDOS"]
+    df_total_votos = df_total_votos.values.tolist()
+    return df_total_votos
+
+# -----------------------------------------------------------------------------
+
+
+def obtener_partidos(df):
+
+    """
+    A partir del dataframe de actas extrae todos los partidos
+    @param df: Dataframe resultado de leer actas.csv
+    @return: Lista de python con los partidos
+    """
+    partidos = df.columns.values.tolist()
+
+    # Los primeros dos corresponde a la columna Provincia y Canton.
+    # Lsas últimas 3 son los votos, por tanto se eliminan
+    return partidos[2:len(partidos)-3]
+
+# -----------------------------------------------------------------------------
+
+
+def test_consultas_indicadores():
 
     # df es la abreviación de Dataframe
     # Obtener la tabla de indices cantonales
-    df = obtener_dataframe(ruta_indicadores_cantonales,
-                           columnas_indicadores_cantonales, "A")
-
+    df = obtener_dataframe(ruta_indicadores, ordenar=True)
     print(Fuente.MORADO + "Indicadores cantonales" + Fuente.FIN)
     print(df)
 
     # Toma los datos de un canton
-    datos_canton = obtener_datos_canton(df, "GRECIA")
+    df_canton = obtener_datos_canton(df, "GRECIA")
     print(Fuente.MORADO + "Indicadores cantonales de Grecia" + Fuente.FIN)
-    print(datos_canton)
-    #
-    # # Toma solo los datos de los cantones de una provincia
-    # datos_cantones_provincia = obtener_datos_cantones_provincia(df, "ALAJUELA")
-    # print(Fuente.MORADO + "Indicadores de cantones de Alajuela" + Fuente.FIN)
-    # print(datos_cantones_provincia)
-    #
-    # # Datos de solo las provincias
-    # datos_provincias = obtener_datos_provincias(df)
-    # print(Fuente.MORADO + "Indicadores de provincias" + Fuente.FIN)
-    # print(datos_provincias)
-    #
-    # # Indicadores de solo la provincia de Alajuela
-    # datos_provincia = obtener_datos_provincia(df, "ALAJUELA")
-    # print(Fuente.MORADO + "Indicadores de solo Alajuela" + Fuente.FIN)
-    # print(datos_provincia)
+    print(df_canton)
+
+    # Datos de solo las provincias
+    df_provincias = df.loc["PROVINCIA"]
+    print(Fuente.MORADO + "Indicadores de provincias" + Fuente.FIN)
+    print(df_provincias)
+
+    # Indicadores de solo los cantones de Alajuela
+    df_provincia = df.loc[df.B == "ALAJUELA"]
+    print(Fuente.MORADO + "Indicadores de solo Alajuela" + Fuente.FIN)
+    print(df_provincia)
 
 # -----------------------------------------------------------------------------
 
 
-# if __name__ == "__main__":
-#     # test_indicadores()
-#     df = pd.read_csv(ruta_actas_ordenadas, skiprows=[0], header=None,
-#     names=list("ABCDEFGHIJKLMNOPQR"))
-#     df.set_index("A", inplace=True)
-#     print(df)
-#     datos_juntas = obtener_datos_junta(df, 5000)
-#     print(datos_juntas.to_frame().T["B"])
-#
-#     from funciones_brandon import *
-#     df = csv_a_listas(ruta_actas_ordenadas)
-#     datos_juntas = obtener_datos_de_junta(5000, df)
-#     print(datos_juntas)
-#
-#     actas_ordenadas = ruta_actas_ordenadas
-#     datos = csv_a_listas(actas_ordenadas)
-#
-#     start_time = time()
-#
-#     for i in range(0, 100000):
-#         obtener_datos_de_junta(randint(1,5000), datos)
-#
-#     print(time() - start_time)
-#     print('\n')
-#
-#     actas_ordenadas = ruta_actas_ordenadas
-#     datos = pd.read_csv(ruta_actas_ordenadas, skiprows=[0], header=None, names=list('ABCDEFGHIJKLMNOPQR'))
-#     datos.set_index("A", inplace=True)
-#
-#     start_time = time()
-#     for i in range(0, 100000):
-#         obtener_datos_junta(datos, randint(1, 5000))
-#
-#     print(time() - start_time)
-#     print('\n')
+def test_consultas_actas():
+
+    # df es la abreviación de Dataframe
+    # Obtener la tabla de indices cantonales
+    df = obtener_dataframe(ruta_actas, encabezado=True)
+    print(Fuente.MORADO + "Actas ordenadas" + Fuente.FIN)
+    print(df)
+
+    # Obtener una fila según el número de junta.
+    df_junta = obtener_datos_junta(df, 4000)
+    print(Fuente.MORADO + "Junta 4000" + Fuente.FIN)
+    print(df_junta)
+
+    # Obtener todas las juntas que pertencen a una provincia
+    df_juntas = obtener_datos_juntas_provincia(df, "ALAJUELA")
+    print(Fuente.MORADO + "Juntas de Alajuela" + Fuente.FIN)
+    print(df_juntas)
+
+    # Debería ser la columna S pero todavía no está en el csv
+    lista_votos = obtener_total_votos(df)
+    print(Fuente.MORADO + "Total de votos" + Fuente.FIN)
+    print(lista_votos)
+
+    # Obtiene una lista con los nombres de todos los partidos
+    lista_partidos = obtener_partidos(df)
+    print(Fuente.MORADO + "Lista de partidos" + Fuente.FIN)
+    print(lista_partidos)
+
+# -----------------------------------------------------------------------------
+
+
+if __name__ == "__main__":
+
+    test_consultas_actas()
+    # test_consultas_indicadores()
 
 # -----------------------------------------------------------------------------
 
