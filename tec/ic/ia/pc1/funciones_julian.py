@@ -2,7 +2,6 @@
 
 import pandas as pd
 from fuentes import Fuente
-from funciones_brandon import *
 from string import ascii_uppercase as ascii
 
 # -----------------------------------------------------------------------------
@@ -70,7 +69,7 @@ def obtener_dataframe(ruta_csv, ordenar=False, encabezado=False):
         # Se coloca cual columna se utiliza para busquedas
         return dataframe.set_index(dataframe.columns[0])
 
-    except FileNotFoundError:
+    except FileNotFoundError or TypeError:
         print(Fuente.ROJO + "Archivo no encontrado: " + ruta_csv + Fuente.FIN)
         exit(-1)
 
@@ -247,7 +246,7 @@ def test_consultas_actas():
 if __name__ == "__main__":
 
     test_consultas_actas()
-    # test_consultas_indicadores()
+    test_consultas_indicadores()
 
 # -----------------------------------------------------------------------------
 

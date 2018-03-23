@@ -2,20 +2,28 @@
 
 import pytest
 
-from funciones_julian import *
-from funciones_armando import *
-from funciones_brandon import *
+import funciones_julian as funcJ
+import funciones_brandon as funcB
 
 # -----------------------------------------------------------------------------
 
 
-def test_csv_a_listas():
+def test_obtener_dataframe():
 
     """
     Se comprueba que el archivo se abrió correctamente
     """
-    listas = csv_a_listas("../archivos/actas.csv")
-    assert listas is not None and listas is not []
+
+    # Se comprueba que no este vacío
+    archivo = "../archivos/actas.csv"
+    dataframe = funcJ.obtener_dataframe(archivo)
+    assert not dataframe.empty and dataframe is not None
+
+    # Se comprueba que si es un archivo inexistente lance el respectivo error
+    # El TypeError es por si se obtiene un None
+    with pytest.raises(FileNotFoundError or TypeError):
+        archivo = "../archivos/incorrecto.csv"
+        funcJ.obtener_dataframe(archivo)
 
 # -----------------------------------------------------------------------------
 
