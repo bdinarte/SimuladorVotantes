@@ -61,8 +61,8 @@ def generar_muestra(n, datos_juntas):
         muestra = []
 
         datos_indicadores = funcJ.obtener_dataframe(ruta_indicadores)
-        partidos = ['OBTENER PARTIDOS']
-        total_juntas = ['OBTENER LISTA JUNTAS']
+        partidos = funcJ.obtener_partidos(datos_juntas)
+        total_juntas = []
         total_votos = ['OBTENER COLUMNA VOTOS']
 
         for num_muestra in range(0, len(datos_juntas) - 1):
@@ -77,7 +77,7 @@ def generar_muestra(n, datos_juntas):
                                                          )
             indicador_muestra.append(voto_muestra)
             muestra.append(indicador_muestra)
-            
+
     except Exception as error:
         print("generar_muestra: " + str(error))
         exit(-1)
