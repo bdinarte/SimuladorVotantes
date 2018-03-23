@@ -211,8 +211,8 @@ def generar_muestra_threads(n_muestras, df_juntas):
     @return: Lista con sublistas, donde cada sublista es un votante
     """
 
-    # Cantidad de procesos que generarám muestras
-    n_procesos = 4
+    # Cantidad de procesos que generarán muestras
+    n_procesos = 8
 
     # Si cada proceso tuviese que hacer menos de 25 muestras (podría ser
     # cualquier otro número mayor a 4), resulta mejor usar solo un proceso
@@ -221,7 +221,7 @@ def generar_muestra_threads(n_muestras, df_juntas):
 
     pool = Pool(processes=n_procesos)
 
-    # 1/4 parte de las muestras serán generadas por cada proceso
+    # 1 parte de las muestras serán generadas por cada proceso
     muestras_x_proceso = n_muestras // n_procesos
 
     # Se especifica que función debe correr cada proceso
@@ -237,7 +237,8 @@ def generar_muestra_threads(n_muestras, df_juntas):
 
     procesos.append(
         pool.apply_async(generar_muestra,
-                         (muestras_x_proceso + muestras_restantes, df_juntas,))
+                         (muestras_x_proceso + muestras_restantes, df_juntas,)
+                        )
     )
 
     # La función sum une las listas de listas obtenidas de cada proceso
@@ -258,11 +259,6 @@ def test_consultas_indicadores():
     df_canton = obtener_datos_canton(df, "GRECIA")
     print(Fuente.MORADO + "Indicadores cantonales de Grecia" + Fuente.FIN)
     print(df_canton)
-
-    # Datos de solo las provincias
-    df_provincias = df.loc["PROVINCIA"]
-    print(Fuente.MORADO + "Indicadores de provincias" + Fuente.FIN)
-    print(df_provincias)
 
     # Indicadores de solo los cantones de Alajuela
     df_provincia = df.loc[df.B == "ALAJUELA"]
