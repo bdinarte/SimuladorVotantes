@@ -7,8 +7,8 @@ from pandas import read_csv
 from random import randint, seed
 from numpy.random import choice
 
-indicadores_cantonales = 'archivos/indicadores_cantonales.csv'
-actas_ordenadas = 'archivos/actas_ordenadas.csv'
+indicadores_cantonales = 'archivos/indicadores.csv'
+actas_ordenadas = 'archivos/actas.csv'
 
 
 
@@ -121,24 +121,21 @@ def convertir_relacion_a_porcentaje(num_x_cada_100):
 
 
 
-def random_con_porcentajes(atributos, porcentajes):
+def random_con_pesos(atributos, pesos):
 
     """
     Genera aleatorio segun porcentajes por cada elemento
     :param atributos: lista de elementos candidatos a escogerse
-    :param porcentajes: lista de porcentajes correspondientes a cada elemento
+    :param pesos: lista de porcentajes correspondientes a cada elemento
     :return: uno de los elementos candidatos, i.e 'elemento1'
     """
 
     try:
-        if sum(porcentajes) != 100:
-            raise Exception('Los porcentajes no suman 100%')
-
-        numero_random = randint(0, 9999)
+        numero_random = randint(0, sum(pesos) * 100 - 1)
         porcent_acumulado = 0
 
         for i in range(0, len(atributos)):
-            porcent_acumulado += porcentajes[i] * 100
+            porcent_acumulado += pesos[i] * 100
             if numero_random < porcent_acumulado:
                 return atributos[i]
 
@@ -146,3 +143,4 @@ def random_con_porcentajes(atributos, porcentajes):
     except Exception as error:
         print('random_general: ' + str(error))
         exit(-1)
+

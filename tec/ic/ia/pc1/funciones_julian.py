@@ -17,8 +17,8 @@ pd.set_option("display.max_rows", 10)
 # -----------------------------------------------------------------------------
 
 # Variables para obtener los csv
-ruta_actas_ordenadas = 'archivos/actas_ordenadas.csv'
-ruta_indicadores_cantonales = 'archivos/indicadores_cantonales.csv'
+ruta_actas_ordenadas = 'archivos/actas.csv'
+ruta_indicadores_cantonales = 'archivos/indicadores.csv'
 
 # -----------------------------------------------------------------------------
 
