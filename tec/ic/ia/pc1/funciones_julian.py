@@ -168,6 +168,20 @@ def obtener_partidos(df):
 # -----------------------------------------------------------------------------
 
 
+def obtener_juntas(df):
+
+    """
+    A partir del dataframe de actas extrae todos los numeros de junta
+    @param df: Dataframe resultado de leer actas.csv
+    @return: Lista de python con los números de juntas
+    """
+
+    # La 'primary key' o index contiene los numeros de juntas
+    return df.index.get_values()
+
+# -----------------------------------------------------------------------------
+
+
 def test_consultas_indicadores():
 
     # df es la abreviación de Dataframe
@@ -221,6 +235,11 @@ def test_consultas_actas():
     lista_partidos = obtener_partidos(df)
     print(Fuente.MORADO + "Lista de partidos" + Fuente.FIN)
     print(lista_partidos)
+
+    # Obtiene una lista de todas los números de junta
+    lista_juntas = obtener_juntas(df)
+    print(Fuente.MORADO + "Lista de juntas" + Fuente.FIN)
+    print(lista_juntas)
 
 # -----------------------------------------------------------------------------
 
