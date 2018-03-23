@@ -152,7 +152,7 @@ def obtener_total_votos(df):
 # -----------------------------------------------------------------------------
 
 
-def obtener_partidos(df):
+def listar_opciones_voto(df):
 
     """
     A partir del dataframe de actas extrae todos los partidos
@@ -163,7 +163,7 @@ def obtener_partidos(df):
 
     # Los primeros dos corresponde a la columna Provincia y Canton.
     # Lsas últimas 3 son los votos, por tanto se eliminan
-    return partidos[2:len(partidos)-3]
+    return partidos[2:len(partidos)-1]
 
 # -----------------------------------------------------------------------------
 
