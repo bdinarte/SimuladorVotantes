@@ -38,12 +38,14 @@ def crear_encabezado(n_columnas):
 # -----------------------------------------------------------------------------
 
 
-def obtener_dataframe(ruta_csv, ordenar=False):
+def obtener_dataframe(ruta_csv, ordenar=False, encabezado=False):
 
     """
     Lee un dataframe desde un csv. Como el encabezado no nos sirve, se ignora
     @param ruta_csv: nombre completo del archivo csv
     @param ordenar: Se debe o no ordenar las filas por la primera columna
+    @param encabezado: Boolean que dice si dejar o no el encabezado leído
+    en el csv
     @return: Dataframe donde la columna 0 son los nombres de los cantones, la
     columna corresponde a la provincia de ese canton.
     """
@@ -52,15 +54,21 @@ def obtener_dataframe(ruta_csv, ordenar=False):
 
         # El nombre de las columnas es muy largo, por tanto, se remplazan
         # con letras
-        dataframe = pd.read_csv(ruta_csv, skiprows=[0], header=None)
-        dataframe.columns = crear_encabezado(len(dataframe.columns))
+        if encabezado:
+            dataframe = pd.read_csv(ruta_csv)
+
+        else:
+
+            # Si no se indica encabezado se crea uno por defecto
+            dataframe = pd.read_csv(ruta_csv, skiprows=[0], header=None)
+            dataframe.columns = crear_encabezado(len(dataframe.columns))
 
         # Ordena las filas por la primera columna
         if ordenar:
             dataframe = dataframe.sort_values(by="A")
 
         # Se coloca cual columna se utiliza para busquedas
-        return dataframe.set_index("A")
+        return dataframe.set_index(dataframe.columns[0])
 
     except FileNotFoundError:
         print(Fuente.ROJO + "Archivo no encontrado: " + ruta_csv + Fuente.FIN)
@@ -118,7 +126,7 @@ def obtener_datos_juntas_provincia(df, provincia):
     """
 
     try:
-        return df.loc[df.B == provincia]
+        return df.loc[df.PROVINCIA == provincia]
     except KeyError:
         print(Fuente.ROJO + "Provincia no encontrada: " + provincia + Fuente.FIN)
         exit(-1)
@@ -135,10 +143,27 @@ def obtener_total_votos(df):
     @return: Lista de python con los votos totales
     """
 
-    # TODO: Esta debe ser S en vez de R, esta así para que agarre algo
-    df_total_votos = df.R
+    # TODO: Esta debe ser VOTOS TOTALES en vez de VOTOS BLANCOS
+    df_total_votos = df["VOTOS BLANCOS"]
     df_total_votos = df_total_votos.values.tolist()
     return df_total_votos
+
+# -----------------------------------------------------------------------------
+
+
+def obtener_partidos(df):
+
+    """
+    A partir del dataframe de actas extrae todos los partidos
+    @param df: Dataframe resultado de leer actas.csv
+    @return: Lista de python con los partidos
+    """
+    partidos = df.columns.values.tolist()
+
+    # Los primeros dos corresponde a la columna Provincia y Canton.
+    # Lsas últimas 3 son los votos, por tanto se eliminan
+    # TODO: Cambiar a partidos[2:len(partidos)-3] cuando se agregué la columna
+    return partidos[2:len(partidos)-2]
 
 # -----------------------------------------------------------------------------
 
@@ -173,7 +198,7 @@ def test_consultas_actas():
 
     # df es la abreviación de Dataframe
     # Obtener la tabla de indices cantonales
-    df = obtener_dataframe(ruta_actas, ordenar=False)
+    df = obtener_dataframe(ruta_actas, encabezado=True)
     print(Fuente.MORADO + "Actas ordenadas" + Fuente.FIN)
     print(df)
 
@@ -188,9 +213,14 @@ def test_consultas_actas():
     print(df_juntas)
 
     # Debería ser la columna S pero todavía no está en el csv
-    df_total_votos = obtener_total_votos(df)
+    lista_votos = obtener_total_votos(df)
     print(Fuente.MORADO + "Total de votos" + Fuente.FIN)
-    print(df_total_votos)
+    print(lista_votos)
+
+    # Obtiene una lista con los nombres de todos los partidos
+    lista_partidos = obtener_partidos(df)
+    print(Fuente.MORADO + "Lista de partidos" + Fuente.FIN)
+    print(lista_partidos)
 
 # -----------------------------------------------------------------------------
 
@@ -198,7 +228,7 @@ def test_consultas_actas():
 if __name__ == "__main__":
 
     test_consultas_actas()
-    test_consultas_indicadores()
+    # test_consultas_indicadores()
 
 # -----------------------------------------------------------------------------
 
