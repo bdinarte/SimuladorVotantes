@@ -145,8 +145,7 @@ def obtener_total_votos(df):
     @return: Lista de python con los votos totales
     """
 
-    # TODO: Esta debe ser VOTOS TOTALES en vez de VOTOS BLANCOS
-    df_total_votos = df["VOTOS BLANCOS"]
+    df_total_votos = df["VOTOS RECIBIDOS"]
     df_total_votos = df_total_votos.values.tolist()
     return df_total_votos
 
@@ -164,8 +163,7 @@ def obtener_partidos(df):
 
     # Los primeros dos corresponde a la columna Provincia y Canton.
     # Lsas últimas 3 son los votos, por tanto se eliminan
-    # TODO: Cambiar a partidos[2:len(partidos)-3] cuando se agregué la columna
-    return partidos[2:len(partidos)-2]
+    return partidos[2:len(partidos)-3]
 
 # -----------------------------------------------------------------------------
 
@@ -229,8 +227,8 @@ def test_consultas_actas():
 
 if __name__ == "__main__":
 
-    # test_consultas_actas()
-    test_consultas_indicadores()
+    test_consultas_actas()
+    # test_consultas_indicadores()
 
 # -----------------------------------------------------------------------------
 
