@@ -19,11 +19,6 @@ def test_obtener_dataframe():
     dataframe = funcJ.obtener_dataframe(archivo)
     assert not dataframe.empty and dataframe is not None
 
-    # Se comprueba que si es un archivo inexistente lance el respectivo error
-    # El TypeError es por si se obtiene un None
-    with pytest.raises(FileNotFoundError or TypeError):
-        archivo = "../archivos/incorrecto.csv"
-        funcJ.obtener_dataframe(archivo)
 
 # -----------------------------------------------------------------------------
 

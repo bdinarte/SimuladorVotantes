@@ -1,8 +1,11 @@
 # -----------------------------------------------------------------------------
 
 import pandas as pd
+from g01 import *
 from fuentes import Fuente
 from string import ascii_uppercase as ascii
+from multiprocessing import Pool, TimeoutError, Condition
+from multiprocessing import Process, Lock
 
 # -----------------------------------------------------------------------------
 
@@ -51,8 +54,6 @@ def obtener_dataframe(ruta_csv, ordenar=False, encabezado=False):
 
     try:
 
-        # El nombre de las columnas es muy largo, por tanto, se remplazan
-        # con letras
         if encabezado:
             dataframe = pd.read_csv(ruta_csv)
 
@@ -106,11 +107,29 @@ def obtener_datos_junta(df, n_junta):
     """
 
     try:
-        lista_junta = df.loc[n_junta] if n_junta != 5402 else []
-        return [n_junta] + lista_junta.values.tolist()
+        if n_junta != 5402:
+            return [n_junta] + df.loc[n_junta].values.tolist()
+        else:
+            return []
+
     except KeyError:
         print(Fuente.ROJO + "Junta no encontrada: " + str(n_junta) + Fuente.FIN)
         exit(-1)
+
+# -----------------------------------------------------------------------------
+
+
+def obtener_datos_juntas_random(df, n_juntas):
+
+    """
+    Obtiene varias filas de forma aleatoria
+    @param df: Dataframe resultado de leer actas.csv
+    @param n_juntas: numero de filas que se extraeran
+    @return: Dataframe con n cantidad de juntas escogidas aleatoriamente
+    TODO: Solo es para probar la eficiencia en test_eficiencia.py
+    """
+
+    return df.sample(n=n_juntas, replace=True)
 
 # -----------------------------------------------------------------------------
 
@@ -151,22 +170,6 @@ def obtener_total_votos(df):
 # -----------------------------------------------------------------------------
 
 
-def listar_opciones_voto(df):
-
-    """
-    A partir del dataframe de actas extrae todos los partidos
-    @param df: Dataframe resultado de leer actas.csv
-    @return: Lista de python con los partidos
-    """
-    partidos = df.columns.values.tolist()
-
-    # Los primeros dos corresponde a la columna Provincia y Canton.
-    # Lsas últimas 3 son los votos, por tanto se eliminan
-    return partidos[2:len(partidos)-1]
-
-# -----------------------------------------------------------------------------
-
-
 def obtener_juntas(df):
 
     """
@@ -177,6 +180,41 @@ def obtener_juntas(df):
 
     # La 'primary key' o index contiene los numeros de juntas
     return df.index.get_values()
+
+# -----------------------------------------------------------------------------
+
+
+def obtener_opciones_voto(df):
+
+    """
+    A partir del dataframe de actas extrae todos los partidos
+    @param df: Dataframe resultado de leer actas.csv
+    @return: Lista de python con los partidos
+    """
+
+    partidos = df.columns.values.tolist()
+
+    # Los primeros dos corresponden a la columna Provincia y Canton.
+    return partidos[2:len(partidos) - 1]
+
+# -----------------------------------------------------------------------------
+
+
+def generar_muestra_threads(n_muestras, df_juntas):
+
+    n_procesos = 4
+    pool = Pool(processes=n_procesos)
+
+    muestras_x_proceso = n_muestras // n_procesos
+
+    procesos = [
+        pool.apply_async(generar_muestra,
+                         (muestras_x_proceso, df_juntas,))
+        for _ in range(n_procesos)
+    ]
+
+    # La función sum une las listas de listas obtenidas de cada proceso
+    return sum([res.get() for res in procesos], [])
 
 # -----------------------------------------------------------------------------
 
@@ -231,7 +269,7 @@ def test_consultas_actas():
     print(lista_votos)
 
     # Obtiene una lista con los nombres de todos los partidos
-    lista_partidos = obtener_partidos(df)
+    lista_partidos = obtener_opciones_voto(df)
     print(Fuente.MORADO + "Lista de partidos" + Fuente.FIN)
     print(lista_partidos)
 

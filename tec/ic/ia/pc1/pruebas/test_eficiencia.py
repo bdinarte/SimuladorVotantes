@@ -2,6 +2,7 @@
 
 import pytest
 
+import numpy as np
 from funciones_julian import *
 from funciones_armando import *
 from funciones_brandon import *
@@ -29,11 +30,11 @@ def test_obtener_fila_por_elemento1():
 def test_panditas():
 
     actas = '../archivos/actas.csv'
-    datos = obtener_dataframe(actas)
+    datos = obtener_dataframe(actas, encabezado=True)
 
     start_time = time()
-    for i in range(0, 100000):
-        obtener_datos_junta(datos, randint(1, 6540))
+    datos = obtener_datos_juntas_random(datos, 100000)
+    print(datos)
 
     print(time() - start_time)
     print('\n')

@@ -1,8 +1,9 @@
 # -----------------------------------------------------------------------------
 
+from time import time
 import funciones_julian as funcJ
 import funciones_brandon as funcB
-from time import time
+
 # -----------------------------------------------------------------------------
 
 # Variables globales para archivos
@@ -21,8 +22,8 @@ def generar_muestra_pais(n):
 
         global ruta_actas
 
-        juntas_pais = funcJ.obtener_dataframe(ruta_actas, encabezado=1)
-        return generar_muestra(n, juntas_pais)
+        juntas_pais = funcJ.obtener_dataframe(ruta_actas, encabezado=True)
+        return funcJ.generar_muestra_threads(n, juntas_pais)
 
     except Exception as error:
         print("generar_muestra_pais: " + str(error))
@@ -38,11 +39,11 @@ def generar_muestra_provincia(n, nombre_provincia):
     try:
         global ruta_actas
 
-        juntas_pais = funcJ.obtener_dataframe(ruta_actas, encabezado=1)
+        juntas_pais = funcJ.obtener_dataframe(ruta_actas, encabezado=True)
         juntas_prov = funcJ.obtener_datos_juntas_provincia(juntas_pais,
                                                            nombre_provincia
                                                            )
-        return generar_muestra(n, juntas_prov)
+        return funcJ.generar_muestra_threads(n, juntas_prov)
 
     except Exception as error:
         print("generar_muestra_pais: " + str(error))
@@ -60,9 +61,9 @@ def generar_muestra(n, df_juntas):
 
         muestra = []
 
-        df_indicadores = funcJ.obtener_dataframe(ruta_indicadores, ordenar=1)
+        df_indicadores = funcJ.obtener_dataframe(ruta_indicadores, ordenar=True)
 
-        partidos = funcJ.listar_opciones_voto(df_juntas)
+        partidos = funcJ.obtener_opciones_voto(df_juntas)
         lista_juntas = funcJ.obtener_juntas(df_juntas)
         total_votos = funcJ.obtener_total_votos(df_juntas)
 
@@ -80,7 +81,7 @@ def generar_muestra(n, df_juntas):
             indicador_muestra.append(voto_muestra)
             muestra.append(indicador_muestra)
 
-        #writecsv(muestra)
+        return muestra
 
     except Exception as error:
         print("generar_muestra: " + str(error))
@@ -95,9 +96,11 @@ def writecsv(lista):
         writer = csv.writer(f)
         writer.writerows(lista)
 
-
-start_time = time()  ##############################
-generar_muestra_pais(10000)
-print(time() - start_time)  #################
-
 """
+
+if __name__ == "__main__":
+    start_time = time()
+    resultado = generar_muestra_provincia(100000, 'ALAJUELA')
+    print(resultado)
+    print(len(resultado))
+    print(time() - start_time)

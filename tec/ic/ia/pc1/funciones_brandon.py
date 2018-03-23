@@ -119,8 +119,6 @@ def convertir_relacion_a_porcentaje(num_x_cada_100):
         exit(-1)
 
 
-
-
 def random_con_pesos(atributos, pesos):
 
     """
