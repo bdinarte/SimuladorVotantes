@@ -144,3 +144,10 @@ def random_con_pesos(atributos, pesos):
         print('random_general: ' + str(error))
         exit(-1)
 
+
+
+
+
+def random_indicadores(datos_indicadores, canton):
+
+    return []
