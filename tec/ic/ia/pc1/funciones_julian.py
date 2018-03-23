@@ -202,16 +202,43 @@ def obtener_opciones_voto(df):
 
 def generar_muestra_threads(n_muestras, df_juntas):
 
+    """
+    Generar un conjunto de "votantes" mediante la función
+    generar_muestra(n,_muestras, df_juntas) pero usando 4 procesos
+    simultaneos, al final se unen los resultados obtenidos de cada uno.
+    @param n_muestras: Cantidad de "votantes" que se deben generar
+    @param df_juntas: Dataframe que contiene la información de las juntas
+    @return: Lista con sublistas, donde cada sublista es un votante
+    """
+
+    # Cantidad de procesos que generarám muestras
     n_procesos = 4
+
+    # Si cada proceso tuviese que hacer menos de 25 muestras (podría ser
+    # cualquier otro número mayor a 4), resulta mejor usar solo un proceso
+    if n_muestras < n_procesos * 25:
+        return generar_muestra(n_muestras, df_juntas)
+
     pool = Pool(processes=n_procesos)
 
+    # 1/4 parte de las muestras serán generadas por cada proceso
     muestras_x_proceso = n_muestras // n_procesos
 
+    # Se especifica que función debe correr cada proceso
+    # Los primeros tres corren la misma cantidad
     procesos = [
         pool.apply_async(generar_muestra,
                          (muestras_x_proceso, df_juntas,))
-        for _ in range(n_procesos)
+        for _ in range(n_procesos-1)
     ]
+
+    # El último genera la cantidad que le corresponde más lo que hace falta
+    muestras_restantes = n_muestras - (muestras_x_proceso * n_procesos)
+
+    procesos.append(
+        pool.apply_async(generar_muestra,
+                         (muestras_x_proceso + muestras_restantes, df_juntas,))
+    )
 
     # La función sum une las listas de listas obtenidas de cada proceso
     return sum([res.get() for res in procesos], [])

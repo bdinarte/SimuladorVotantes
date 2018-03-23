@@ -100,7 +100,7 @@ def writecsv(lista):
 
 if __name__ == "__main__":
     start_time = time()
-    resultado = generar_muestra_provincia(100000, 'ALAJUELA')
+    resultado = generar_muestra_provincia(159, 'ALAJUELA')
     print(resultado)
     print(len(resultado))
     print(time() - start_time)
