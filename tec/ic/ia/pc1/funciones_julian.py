@@ -84,11 +84,12 @@ def obtener_datos_canton(df, canton):
     con indicadores para el cantón especificado.
     @param df: Dataframe resultado de leer indicadores.csv
     @param canton: Nombre del cantón del que se necesitan sus indicadores
-    @return: pd.Series (fila) relacionada con el cantón
+    @return: lista relacionada con el cantón
     """
 
     try:
-        return df.loc[canton]
+        fila_canton = df.loc[canton]
+        return [canton] + fila_canton.values.tolist()
     except KeyError:
         print(Fuente.ROJO + "Cantón no encontrado: " + canton + Fuente.FIN)
         exit(-1)
@@ -102,11 +103,12 @@ def obtener_datos_junta(df, n_junta):
     Obtener una fila según el número de junta
     @param df: Dataframe resultado de leer actas.csv
     @param n_junta: numero de junta
-    @return: pd.Series (fila) relacionada con la junta
+    @return: lista relacionada con la junta
     """
 
     try:
-        return df.loc[n_junta] if n_junta != 5402 else []
+        lista_junta = df.loc[n_junta] if n_junta != 5402 else []
+        return [n_junta] + lista_junta.values.tolist()
     except KeyError:
         print(Fuente.ROJO + "Junta no encontrada: " + str(n_junta) + Fuente.FIN)
         exit(-1)
@@ -227,8 +229,8 @@ def test_consultas_actas():
 
 if __name__ == "__main__":
 
-    test_consultas_actas()
-    # test_consultas_indicadores()
+    # test_consultas_actas()
+    test_consultas_indicadores()
 
 # -----------------------------------------------------------------------------
 
