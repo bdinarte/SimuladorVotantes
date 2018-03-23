@@ -111,7 +111,10 @@ def test_random_con_pesos():
     for c in range(0, 10):
         resultados.append(random_con_pesos(atributos, porcentajes))
 
-    print(resultados)
+    # randomizar la semilla luego de haberla alterado
+    seed(time())
+    
     assert resultados == ['tipo4', 'tipo3', 'tipo4', 'tipo3', 'tipo1',
                           'tipo3', 'tipo3', 'tipo4', 'tipo3', 'tipo3'
                          ]
+
