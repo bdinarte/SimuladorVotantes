@@ -1,38 +1,67 @@
 # -----------------------------------------------------------------------------
 
-from sys import exit
 from random import randint
 from modelo.manejo_consultas import *
 
 # -----------------------------------------------------------------------------
 
 
-def convertir_relacion_a_porcentaje(num_x_cada_100):
+def random_con_pesos(atributos, pesos):
 
     """
-    Toma una relacion como N elementos por cada 100 elementos de tipo2
-    y la convierte a dos porcentajes equivalentes.
-    :param num_x_cada_100: cantidad de elementos del tipo 1
-    :return: una tupla ordenada con los porcentajes para cada tipo
+    Genera aleatorio según porcentajes por cada elemento
+    @param atributos: lista de elementos candidatos a escogerse
+    @param pesos: lista de porcentajes correspondientes a cada elemento
+    @return: uno de los elementos candidatos, i.e 'elemento1'
     """
 
-    try:
+    numero_random = randint(0, sum(pesos) * 100 - 1)
+    porcent_acumulado = 0
 
-        if num_x_cada_100 <= 0:
-            raise Exception('Entrada invalida.')
-
-        porcentaje1 = round(num_x_cada_100 / (num_x_cada_100 + 100) * 100, 2)
-
-        return porcentaje1, 100 - porcentaje1
-
-    except Exception as error:
-        print('convertir_relacion_a_porcentaje: ' + str(error))
-        exit(-1)
+    for i in range(0, len(atributos)):
+        porcent_acumulado += pesos[i] * 100
+        if numero_random < porcent_acumulado:
+            return atributos[i]
 
 # -----------------------------------------------------------------------------
 
 
+def random_de_juntas(tipos_repetidos):
+
+    """
+    TODO: Falta documentación
+    @param tipos_repetidos:
+    @return:
+    """
+
+    numero_random = randint(0, len(tipos_repetidos) - 1)
+    return tipos_repetidos[numero_random]
+
+# -----------------------------------------------------------------------------
+
+
+def generar_buckets(tipos, cantidades):
+
+    """
+    TODO: Falta documentación
+    @param tipos:
+    @param cantidades:
+    @return:
+    """
+
+    contador = 0
+    acumulador = []
+    for cantidad in cantidades:
+        acumulador += [tipos[contador]] * cantidad
+        contador += 1
+
+    return acumulador
+
+
+# -----------------------------------------------------------------------------
+
 def random_cero_cien(valor_comparacion):
+
     """
     Funcion encargada de generar un random de cero a 100 para saber si un
     indicador es positivo o negativo para un determinado individuo
@@ -41,6 +70,7 @@ def random_cero_cien(valor_comparacion):
     :return: valor booleano, que indica si el numero generado se encuentra
     en el rango del valor de comparacion o no.
     """
+
     numero_random = randint(1, 10000)
     if numero_random <= valor_comparacion*100:
         return True
@@ -51,6 +81,7 @@ def random_cero_cien(valor_comparacion):
 
 
 def random_sexo(razon_masculinidad):
+
     """
     Funcion encargada de generar un random para saber si un individuo
     es hombre o mujer
@@ -58,15 +89,15 @@ def random_sexo(razon_masculinidad):
     :return: valor de string indicando el sexo
     """
 
-    porc_hombre = int(razon_masculinidad/(razon_masculinidad+100)*100)
+    porc_hombre = razon_masculinidad/(razon_masculinidad+100)*100
     if random_cero_cien(porc_hombre):
         return 'M'
 
     return 'F'
 
-<<<<<<< HEAD
-
 # -----------------------------------------------------------------------------
+
+
 def random_edad():
 
     """
@@ -78,20 +109,18 @@ def random_edad():
     edad a generar para los votantes.
     :return: Edad que va ser asignada a un individuo
     """
+
     numero_random = randint(1, 76)
-    if(numero_random <= 69):
+    if numero_random <= 69:
         return randint(18, 64)
 
     return randint(64, 100)
 
-
-
-=======
->>>>>>> e1808791e817423f8fe12ac93e38a03149b1643e
 # -----------------------------------------------------------------------------
 
 
 def random_indicadores(datos_indicadores, canton):
+
     """
     Funcion encargada de obtener los indicadores de un cierto canton, tomar
     los campos a los que se les debe aplicar un random y llamar a las
@@ -105,7 +134,7 @@ def random_indicadores(datos_indicadores, canton):
 
     indicadores = obtener_datos_canton(datos_indicadores, canton)
 
-    #--------------- Generacion de una edad para el individuo
+    # --------------- Generacion de una edad para el individuo
     edad = random_edad()
 
     # --------------- Porcentaje de la poblacion urbana
@@ -151,7 +180,6 @@ def random_indicadores(datos_indicadores, canton):
     es_asegurado = 'NO ASEGURADO'
     if random_cero_cien(porc_asegurado):
         es_asegurado = 'ASEGURADO'
-
 
     return indicadores
 
