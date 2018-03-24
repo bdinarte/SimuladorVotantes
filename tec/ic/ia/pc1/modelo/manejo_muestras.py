@@ -67,9 +67,9 @@ def generar_muestra_threads(n_muestras, df_juntas, df_indicadores):
     juntas_con_pesos = generar_buckets(lista_juntas, total_votos)
     indicadores = df_indicadores.values.tolist()
 
-    # Si cada proceso tuviese que hacer menos de 25 muestras (podría ser
-    # cualquier otro número mayor a 4), resulta mejor usar solo un proceso
-    if n_muestras < n_procesos * 25:
+    # Si cada proceso tuviese que hacer menos de 2000 muestras, resulta
+    # mejor usar solo un proceso, esto varía entre equipos
+    if n_muestras < n_procesos * 2000:
         return generar_muestra(n_muestras, df_juntas, indicadores, partidos,
                                juntas_con_pesos)
 
@@ -80,6 +80,7 @@ def generar_muestra_threads(n_muestras, df_juntas, df_indicadores):
 
     # Se especifica que función debe correr cada proceso
     # Los primeros tres corren la misma cantidad
+
     procesos = [
         pool.apply_async(generar_muestra,
                          (muestras_x_proceso, df_juntas, indicadores,
