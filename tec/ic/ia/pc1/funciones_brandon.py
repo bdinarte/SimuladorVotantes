@@ -143,7 +143,26 @@ def random_con_pesos(atributos, pesos):
         exit(-1)
 
 
+def random_de_juntas(tipos_repetidos):
 
+    try:
+        numero_random = randint(0, len(tipos_repetidos) - 1)
+        return tipos_repetidos[numero_random]
+
+    except Exception as error:
+        print('random_general: ' + str(error))
+        exit(-1)
+
+
+def generar_buckets(tipos, cantidades):
+
+    contador = 0
+    acumulador = []
+    for cantidad in cantidades:
+        acumulador += [tipos[contador]] * cantidad
+        contador += 1
+
+    return acumulador
 
 
 def random_indicadores(datos_indicadores, canton):
