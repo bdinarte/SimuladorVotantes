@@ -45,10 +45,10 @@ def obtener_datos_junta(df, n_junta):
     Obtener una fila según el número de junta
     @param df: Dataframe resultado de leer actas.csv
     @param n_junta: numero de junta
-    @return: lista relacionada con la junta
+    @return: pd.Secuence con los datos de la junta
     """
 
-    return [n_junta] + df.loc[n_junta].values.tolist()
+    return df.loc[n_junta]
 
 # -----------------------------------------------------------------------------
 
@@ -88,6 +88,18 @@ def obtener_opciones_voto(df):
 
 # -----------------------------------------------------------------------------
 
+
+def obtener_votos_junta(df):
+
+    """
+    Consulta los votos obtenidos para la junta especificada
+    @param df: Dataframe de la junta a consultar
+    @return: 
+    """
+
+    return df["ACCESIBILIDAD SIN EXCLUSION":"BLANCO"]
+
+# -----------------------------------------------------------------------------
 
 def obtener_total_votos(df):
 

@@ -1,9 +1,9 @@
 # -----------------------------------------------------------------------------
 
-from multiprocessing import Pool
 from modelo.gen_randoms import *
 from modelo.manejo_archivos import *
 from modelo.manejo_consultas import *
+from multiprocessing import Pool, cpu_count
 
 # -----------------------------------------------------------------------------
 
@@ -56,8 +56,9 @@ def generar_muestra_threads(n_muestras, df_juntas, df_indicadores):
     @return: Lista con sublistas, donde cada sublista es un votante
     """
 
-    # Cantidad de procesos que generarán muestras
-    n_procesos = 8
+    # Se genera un proceso por cada núcleo del procesador
+    # Se resta 1 para que el porcentaje de uso del procesador no llegue al 100%
+    n_procesos = cpu_count() - 1
 
     # Variables compartidas por los diferentes procesos
     partidos = obtener_opciones_voto(df_juntas)
@@ -109,13 +110,12 @@ def generar_muestra(n, df_juntas, df_indicadores, partidos, juntas_con_pesos):
 
         junta_random = random_de_juntas(juntas_con_pesos)
         datos_junta = obtener_datos_junta(df_juntas, junta_random)
-        votos_junta = datos_junta[3:18]
+        votos_junta = obtener_votos_junta(datos_junta)
         voto_muestra = random_con_pesos(partidos, votos_junta)
 
-        canton = datos_junta[2]
-        indicador_muestra = random_indicadores(df_indicadores, canton)
-        indicador_muestra.append(voto_muestra)
-        muestra.append(indicador_muestra)
+        indic_muestra = random_indicadores(df_indicadores, datos_junta.CANTON)
+        indic_muestra.append(voto_muestra)
+        muestra.append(indic_muestra)
 
     return muestra
 
