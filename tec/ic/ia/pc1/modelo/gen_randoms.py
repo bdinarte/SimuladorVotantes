@@ -165,6 +165,35 @@ def random_indicadores(datos_indicadores, canton):
     vivienda_hacinada = definir_indicador(
         random_cero_cien, indicadores.N, 'V. HACINADA', 'V. NO HACINADA')
 
+    # --------------- Porcentaje de Alfabetismo
+
+    alfabetismo = definir_indicador(
+        random_cero_cien, indicadores.O if edad <= 24 else indicadores.P,
+        'ALFABETIZADO', 'NO ALFABETIZADO')
+
+    # --------------- Porcentaje de escolaridad
+    # Se aplica Desviacion estandar de -2 a 2
+
+    escolaridad = indicadores.Q if edad <= 49 else indicadores.R
+    escolaridad = round(randint(-2, 2) + escolaridad, 2)
+
+    # --------------- Porcentaje de asistencia a la educacion regular
+
+    educacion_regular = definir_indicador(
+        random_cero_cien, indicadores.S if edad <= 24 else indicadores['T'],
+        'EN EDUCACION REGULAR', 'EDUCACION REGULAR INACTIVA')
+
+    # --------------- Tasa neta de participacion
+
+    es_empleado = definir_indicador(
+        random_cero_cien, indicadores.U if sexo == 'M' else indicadores.V,
+        'EMPLEADO', 'DESEMPLEADO')
+
+    # --------------- Porcentaje de ser no asegurado
+
+    es_asegurado = definir_indicador(
+        random_cero_cien, indicadores.W if es_empleado == 'EMPLEADO' else indicadores.Z, 'ASEGURADO', 'NO ASEGURADO')
+
     # --------------- Porcentaje de ser extranjero
 
     es_extranjero = definir_indicador(
@@ -175,12 +204,8 @@ def random_indicadores(datos_indicadores, canton):
     es_discapacitado = definir_indicador(
         random_cero_cien, indicadores.Y, 'DISCAPACITADO', 'NO DISCAPACITADO')
 
-    # --------------- Porcentaje de ser no asegurado
-
-    es_asegurado = definir_indicador(
-        random_cero_cien, indicadores.Z, 'ASEGURADO', 'NO ASEGURADO')
-
     return [canton, edad, es_urbano, sexo, es_dependiente, vivienda_buena,
-            vivienda_hacinada, es_extranjero, es_discapacitado, es_asegurado]
+            vivienda_hacinada, alfabetismo, escolaridad, educacion_regular,
+            es_empleado, es_asegurado, es_extranjero, es_discapacitado]
 
 # -----------------------------------------------------------------------------
