@@ -5,3 +5,15 @@ tec.ic.ia.*
 tec/ic/ia/pc1/__pycache__/
 
 \.pytest_cache/v/cache/
+
+*.pyc
+
+tec/ic/__pycache__/
+
+tec/__pycache__/
+
+tec/ic/ia/__pycache__/
+
+tec/ic/ia/pc1/modelo/__pycache__/
+
+tec/ic/ia/pc1/util/__pycache__/
