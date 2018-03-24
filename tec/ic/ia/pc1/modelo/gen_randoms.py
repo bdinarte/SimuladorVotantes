@@ -204,8 +204,10 @@ def random_indicadores(datos_indicadores, canton):
     es_discapacitado = definir_indicador(
         random_cero_cien, indicadores.Y, 'DISCAPACITADO', 'NO DISCAPACITADO')
 
-    return [canton, edad, es_urbano, sexo, es_dependiente, vivienda_buena,
-            vivienda_hacinada, alfabetismo, escolaridad, educacion_regular,
-            es_empleado, es_asegurado, es_extranjero, es_discapacitado]
+    return indicadores['C':'I'].values.tolist() + [
+        canton, edad, es_urbano, sexo, es_dependiente, vivienda_buena,
+        vivienda_hacinada, alfabetismo, escolaridad, educacion_regular,
+        es_empleado, es_asegurado, es_extranjero, es_discapacitado
+    ]
 
 # -----------------------------------------------------------------------------

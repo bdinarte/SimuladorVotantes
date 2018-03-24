@@ -35,7 +35,7 @@ if __name__ == "__main__":
     print("Núcleos: " + str(cpu_count()))
     muestra = generar_muestra_pais(8)
     print("Tamaño de la muestra: " + str(len(muestra)))
-    # pprint(muestra)
+    pprint(muestra)
 
 
 # -----------------------------------------------------------------------------
