@@ -2,7 +2,7 @@
 
 import pandas as pd
 from g01 import *
-from fuentes import Fuente
+from util.fuentes import Fuente
 from multiprocessing import Pool
 from string import ascii_uppercase as ascii
 

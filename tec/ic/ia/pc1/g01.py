@@ -4,7 +4,6 @@ import os
 from time import time
 import funciones_julian as funcJ
 import funciones_brandon as funcB
-from timeit import timeit
 
 # -----------------------------------------------------------------------------
 
