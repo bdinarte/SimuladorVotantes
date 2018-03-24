@@ -1,6 +1,5 @@
 # -----------------------------------------------------------------------------
 
-import os
 from time import time
 import funciones_julian as funcJ
 import funciones_brandon as funcB
@@ -9,8 +8,8 @@ import funciones_brandon as funcB
 
 # Variables globales para archivos
 
-ruta_actas = os.path.join("archivos", "actas.csv")
-ruta_indicadores = os.path.join("archivos", "indicadores.csv")
+ruta_actas = "archivos/actas.csv"
+ruta_indicadores = "archivos/indicadores.csv"
 
 # -----------------------------------------------------------------------------
 
@@ -24,7 +23,7 @@ def generar_muestra_pais(n):
         global ruta_actas
 
         juntas_pais = funcJ.obtener_dataframe(ruta_actas, encabezado=True)
-        return funcJ.generar_muestra_multiproceso(n, juntas_pais)
+        return funcJ.generar_muestra_threads(n, juntas_pais)
 
     except Exception as error:
         print("generar_muestra_pais: " + str(error))
@@ -44,7 +43,7 @@ def generar_muestra_provincia(n, nombre_provincia):
         juntas_prov = funcJ.obtener_datos_juntas_provincia(juntas_pais,
                                                            nombre_provincia
                                                            )
-        return funcJ.generar_muestra_multiproceso(n, juntas_prov)
+        return funcJ.generar_muestra_threads(n, juntas_prov)
 
     except Exception as error:
         print("generar_muestra_pais: " + str(error))
@@ -55,22 +54,16 @@ def generar_muestra_provincia(n, nombre_provincia):
 # Funcion compartida
 
 
-def generar_muestra(n, df_juntas):
+def generar_muestra(n, df_juntas, df_indicadores, partidos, juntas_con_pesos):
 
     try:
         global ruta_indicadores
 
         muestra = []
 
-        df_indicadores = funcJ.obtener_dataframe(ruta_indicadores, ordenar=True)
-
-        partidos = funcJ.obtener_opciones_voto(df_juntas)
-        lista_juntas = funcJ.obtener_juntas(df_juntas)
-        total_votos = funcJ.obtener_total_votos(df_juntas)
-
         for num_muestra in range(0, n):
 
-            junta_random = funcB.random_con_pesos(lista_juntas, total_votos)
+            junta_random = funcB.random_de_juntas(juntas_con_pesos)
             datos_junta = funcJ.obtener_datos_junta(df_juntas, junta_random)
             votos_junta = datos_junta[3:18]
             voto_muestra = funcB.random_con_pesos(partidos, votos_junta)
@@ -102,6 +95,5 @@ def writecsv(lista):
 if __name__ == "__main__":
     start_time = time()
     resultado = generar_muestra_pais(100000)
-    print(resultado)
     print(len(resultado))
     print(time() - start_time)

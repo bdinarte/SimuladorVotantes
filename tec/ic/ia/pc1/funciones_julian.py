@@ -2,15 +2,23 @@
 
 import pandas as pd
 from g01 import *
-from util.fuentes import Fuente
-from multiprocessing import Pool
+from funciones_brandon import generar_buckets
+from fuentes import Fuente
 from string import ascii_uppercase as ascii
+from multiprocessing import Pool, TimeoutError, Condition
+from multiprocessing import Process, Lock
 
 # -----------------------------------------------------------------------------
 
 # Configurar pandas para solo mostrar una tablaña
 pd.set_option("display.max_columns", 7)
 pd.set_option("display.max_rows", 10)
+
+# -----------------------------------------------------------------------------
+
+# Variables para obtener los csv
+ruta_actas = 'archivos/actas.csv'
+ruta_indicadores = 'archivos/indicadores.csv'
 
 # -----------------------------------------------------------------------------
 
@@ -193,7 +201,7 @@ def obtener_opciones_voto(df):
 # -----------------------------------------------------------------------------
 
 
-def generar_muestra_multiproceso(n_muestras, df_juntas):
+def generar_muestra_threads(n_muestras, df_juntas):
 
     """
     Generar un conjunto de "votantes" mediante la función
@@ -207,10 +215,18 @@ def generar_muestra_multiproceso(n_muestras, df_juntas):
     # Cantidad de procesos que generarán muestras
     n_procesos = 8
 
+    # Variables compartidas por los diferentes procesos
+    df_indicadores = funcJ.obtener_dataframe(ruta_indicadores, ordenar=True)
+    partidos = funcJ.obtener_opciones_voto(df_juntas)
+    lista_juntas = funcJ.obtener_juntas(df_juntas)
+    total_votos = funcJ.obtener_total_votos(df_juntas)
+    juntas_con_pesos = generar_buckets(lista_juntas, total_votos)
+
     # Si cada proceso tuviese que hacer menos de 25 muestras (podría ser
     # cualquier otro número mayor a 4), resulta mejor usar solo un proceso
     if n_muestras < n_procesos * 25:
-        return generar_muestra(n_muestras, df_juntas)
+        return generar_muestra(n_muestras, df_juntas, df_indicadores, partidos,
+                               juntas_con_pesos)
 
     pool = Pool(processes=n_procesos)
 
@@ -221,7 +237,8 @@ def generar_muestra_multiproceso(n_muestras, df_juntas):
     # Los primeros tres corren la misma cantidad
     procesos = [
         pool.apply_async(generar_muestra,
-                         (muestras_x_proceso, df_juntas,))
+                         (muestras_x_proceso, df_juntas, df_indicadores,
+                          partidos, juntas_con_pesos,))
         for _ in range(n_procesos-1)
     ]
 
@@ -230,8 +247,9 @@ def generar_muestra_multiproceso(n_muestras, df_juntas):
 
     procesos.append(
         pool.apply_async(generar_muestra,
-                         (muestras_x_proceso + muestras_restantes, df_juntas,)
-                        )
+                         (muestras_x_proceso + muestras_restantes,
+                          df_juntas,  df_indicadores, partidos,
+                          juntas_con_pesos,))
     )
 
     # La función sum une las listas de listas obtenidas de cada proceso

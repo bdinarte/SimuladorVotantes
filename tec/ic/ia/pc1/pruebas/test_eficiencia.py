@@ -40,3 +40,45 @@ def test_panditas():
     print('\n')
 
 # -----------------------------------------------------------------------------
+
+
+def test_rcp1():
+
+    actas = '../archivos/actas.csv'
+    datos = obtener_dataframe(actas, encabezado=True)
+
+    start_time = time()
+    pesos = obtener_total_votos(datos)
+    tipos = obtener_juntas(datos)
+
+    r = []
+
+    for i in range(0,1000):
+        r.append( random_con_pesos(tipos, pesos) )
+
+    print(len(r))
+
+    print(time() - start_time)
+
+# -----------------------------------------------------------------------------
+
+
+def test_rcp2():
+    actas = '../archivos/actas.csv'
+    datos = obtener_dataframe(actas, encabezado=True)
+
+    start_time = time()
+    pesos = obtener_total_votos(datos)
+    tipos = obtener_juntas(datos)
+
+    r = []
+    d = generar_buckets(tipos, pesos)
+
+    for i in range(0, 1000):
+        r.append(random_de_juntas(d))
+
+    print(len(r))
+
+    print(time() - start_time)
+
+# -----------------------------------------------------------------------------
