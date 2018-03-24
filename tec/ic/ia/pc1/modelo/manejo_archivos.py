@@ -81,6 +81,7 @@ def obtener_dataframe(ruta_csv, ordenar=False, encabezado=False):
 
     # Ordena las filas por la primera columna
     if ordenar:
+        return dataframe
         dataframe = dataframe.sort_values(by="A")
 
     # Se coloca cual columna se utiliza para busquedas

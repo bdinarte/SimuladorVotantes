@@ -105,6 +105,7 @@ def generar_muestra_threads(n_muestras, df_juntas, df_indicadores):
 def generar_muestra(n, df_juntas, df_indicadores, partidos, juntas_con_pesos):
 
     muestra = []
+    indicadores = df_indicadores.values.tolist()
 
     for num_muestra in range(0, n):
 
@@ -114,7 +115,7 @@ def generar_muestra(n, df_juntas, df_indicadores, partidos, juntas_con_pesos):
         voto_muestra = random_con_pesos(partidos, votos_junta)
 
         canton = datos_junta[2]
-        indic_muestra = random_indicadores(df_indicadores, canton)
+        indic_muestra = random_indicadores(indicadores, canton)
         indic_muestra.append(voto_muestra)
         muestra.append(indic_muestra)
 

@@ -20,7 +20,6 @@ def generar_muestra_pais(n):
 
 # -----------------------------------------------------------------------------
 
-
 @timeit
 def generar_muestra_provincia(n, nombre_provincia):
     return generar_muestra_provincia_aux(n, nombre_provincia,
