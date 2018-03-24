@@ -1,10 +1,8 @@
 # -----------------------------------------------------------------------------
 
 import os
-from pprint import pprint
 from util.timeit import timeit
 from modelo.manejo_muestras import *
-from multiprocessing import cpu_count
 
 # -----------------------------------------------------------------------------
 
@@ -32,10 +30,7 @@ def generar_muestra_provincia(n, nombre_provincia):
 
 
 if __name__ == "__main__":
-    print("Núcleos: " + str(cpu_count()))
     muestra = generar_muestra_pais(8)
     print("Tamaño de la muestra: " + str(len(muestra)))
-    pprint(muestra)
-
 
 # -----------------------------------------------------------------------------

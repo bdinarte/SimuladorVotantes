@@ -15,7 +15,7 @@ def timeit(method):
         ts = time()
         result = method(*args, **kw)
         te = time()
-        print("\nDuración de " + method.__name__ + ": "+str(te - ts))
+        print("Duración de " + method.__name__ + ": "+str(te - ts))
         return result
 
     return timed
