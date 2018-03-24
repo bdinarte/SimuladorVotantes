@@ -7,6 +7,9 @@ from pandas import read_csv
 from random import randint, seed
 from numpy.random import choice
 
+from tec.ic.ia.pc1 import funciones_julian
+from tec.ic.ia.pc1.fuentes import Fuente
+
 indicadores_cantonales = 'archivos/indicadores.csv'
 actas_ordenadas = 'archivos/actas.csv'
 
@@ -145,6 +148,7 @@ def random_con_pesos(atributos, pesos):
 
 def random_de_juntas(tipos_repetidos):
 
+<<<<<<< HEAD
     try:
         numero_random = randint(0, len(tipos_repetidos) - 1)
         return tipos_repetidos[numero_random]
@@ -163,8 +167,41 @@ def generar_buckets(tipos, cantidades):
         contador += 1
 
     return acumulador
+=======
+# -----------------------------------------------------------------------------
 
+def obtener_indicadores_canton(df, canton):
+>>>>>>> 4cdbe450822bc80722489ae976b1148ebd946f1a
+
+    """
+    A partir de un dataframe obtiene las filas de todas los indicadores
+    que pertenecen a un canton en especifico.
+    @param df: Dataframe resultado de leer indicadores.csv
+    @param canton: Nombre del canton del que se necesitan los indicadores
+    @return: Dataframe que contiene todos los indicadores de ese canton
+    """
+
+    try:
+        return [canton] + df.loc[canton].values.tolist()
+    except KeyError:
+        print(Fuente.ROJO + "Canton no encontrado: " + canton + Fuente.FIN)
+        exit(-1)
+
+
+
+# -----------------------------------------------------------------------------
 
 def random_indicadores(datos_indicadores, canton):
+    """
+    Funcion encargada de obtener los indicadores de un cierto canton, tomar
+    los campos a los que se les debe aplicar un random y llamar a las respectivas
+    funciones. Al final debe crear una lista con todos los indicadores que devuelvan
+    dichas funciones secundarias.
+    :param datos_indicadores: es el conjunto de todos los indicadores, leidos del archivo indicadores.csv
+    :param canton: es sobre el cual se tomaran los indicadores
+    :return: una lista con los K atributos/indicadores que tendra el individuo
+    """
 
-    return [1,'hombre',1,1,1,1,1,1,1]
+    indicadores = obtener_indicadores_canton(datos_indicadores, canton)
+
+    return indicadores
