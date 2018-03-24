@@ -142,8 +142,7 @@ def random_indicadores(df_indicadores, canton):
     # -------------------------------------------------------------------------
     # pandas.Series con los indicadores de un cantón
 
-    #columnas = obtener_datos_canton(df_indicadores, canton)
-    columnas = obtener_datos_canton2(df_indicadores, canton)
+    columnas = obtener_datos_canton(df_indicadores, canton)
 
     # -------------------------------------------------------------------------
     # Generación de una edad para el individuo

@@ -16,14 +16,11 @@ def obtener_datos_canton(df, canton):
     """
 
     try:
-        return [canton] + df.loc[canton].values.tolist()
+        return [x for x in df if x[0] == canton][0]
     except KeyError:
         print_error("Cantón no encontrado: " + canton)
         exit(-1)
 
-def obtener_datos_canton2(df, canton):
-
-    return [x for x in df if x[0] == canton][0]
 # -----------------------------------------------------------------------------
 
 
