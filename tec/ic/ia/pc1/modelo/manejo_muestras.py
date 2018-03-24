@@ -19,7 +19,7 @@ def generar_muestra_pais_aux(n, ruta_actas, ruta_indicadores):
     """
 
     juntas_pais = obtener_dataframe(ruta_actas, encabezado=True)
-    df_indicadores = obtener_dataframe(ruta_indicadores, ordenar=True)
+    df_indicadores = obtener_dataframe(ruta_indicadores)
     return generar_muestra_threads(n, juntas_pais, df_indicadores)
 
 # -----------------------------------------------------------------------------
@@ -38,7 +38,7 @@ def generar_muestra_provincia_aux(n, provincia, ruta_actas, ruta_indicadores):
 
     juntas_pais = obtener_dataframe(ruta_actas, encabezado=True)
     juntas_prov = obtener_datos_juntas_provincia(juntas_pais, provincia)
-    df_indicadores = obtener_dataframe(ruta_indicadores, ordenar=True)
+    df_indicadores = obtener_dataframe(ruta_indicadores)
     return generar_muestra_threads(n, juntas_prov, df_indicadores)
 
 # -----------------------------------------------------------------------------
@@ -65,11 +65,12 @@ def generar_muestra_threads(n_muestras, df_juntas, df_indicadores):
     lista_juntas = obtener_juntas(df_juntas)
     total_votos = obtener_total_votos(df_juntas)
     juntas_con_pesos = generar_buckets(lista_juntas, total_votos)
+    indicadores = df_indicadores.values.tolist()
 
     # Si cada proceso tuviese que hacer menos de 25 muestras (podría ser
     # cualquier otro número mayor a 4), resulta mejor usar solo un proceso
     if n_muestras < n_procesos * 25:
-        return generar_muestra(n_muestras, df_juntas, df_indicadores, partidos,
+        return generar_muestra(n_muestras, df_juntas, indicadores, partidos,
                                juntas_con_pesos)
 
     pool = Pool(processes=n_procesos)
@@ -81,7 +82,7 @@ def generar_muestra_threads(n_muestras, df_juntas, df_indicadores):
     # Los primeros tres corren la misma cantidad
     procesos = [
         pool.apply_async(generar_muestra,
-                         (muestras_x_proceso, df_juntas, df_indicadores,
+                         (muestras_x_proceso, df_juntas, indicadores,
                           partidos, juntas_con_pesos,))
         for _ in range(n_procesos-1)
     ]
@@ -92,8 +93,7 @@ def generar_muestra_threads(n_muestras, df_juntas, df_indicadores):
     procesos.append(
         pool.apply_async(generar_muestra,
                          (muestras_x_proceso + muestras_restantes,
-                          df_juntas,  df_indicadores, partidos,
-                          juntas_con_pesos,))
+                          df_juntas, indicadores, partidos, juntas_con_pesos,))
     )
 
     # La función sum une las listas de listas obtenidas de cada proceso
@@ -102,10 +102,9 @@ def generar_muestra_threads(n_muestras, df_juntas, df_indicadores):
 # -----------------------------------------------------------------------------
 
 
-def generar_muestra(n, df_juntas, df_indicadores, partidos, juntas_con_pesos):
+def generar_muestra(n, df_juntas, indicadores, partidos, juntas_con_pesos):
 
     muestra = []
-    indicadores = df_indicadores.values.tolist()
 
     for num_muestra in range(0, n):
 

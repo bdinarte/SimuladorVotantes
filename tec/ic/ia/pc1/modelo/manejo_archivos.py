@@ -66,12 +66,11 @@ def leer_csv_sin_encabezado(ruta_csv):
 # -----------------------------------------------------------------------------
 
 
-def obtener_dataframe(ruta_csv, ordenar=False, encabezado=False):
+def obtener_dataframe(ruta_csv, encabezado=False):
 
     """
     Lee un dataframe desde un csv.
     :param ruta_csv: nombre completo del archivo csv
-    :param ordenar: Se debe o no ordenar las filas por la primera columna
     :param encabezado: Boolean que dice si dejar o no el encabezado leído
     :return: Dataframe donde la columna 0 son los nombres de los cantones, la
     columna corresponde a la provincia de ese canton.
@@ -79,12 +78,10 @@ def obtener_dataframe(ruta_csv, ordenar=False, encabezado=False):
 
     dataframe = leer_csv(ruta_csv, encabezado)
 
-    # Ordena las filas por la primera columna
-    if ordenar:
-        return dataframe
-        dataframe = dataframe.sort_values(by="A")
+    if encabezado:
+        # Se coloca cual columna se utiliza para busquedas
+        return dataframe.set_index(dataframe.columns[0])
 
-    # Se coloca cual columna se utiliza para busquedas
-    return dataframe.set_index(dataframe.columns[0])
+    return dataframe
 
 # -----------------------------------------------------------------------------
