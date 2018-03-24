@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 
 import pandas as pd
-from util.fuentes import Fuente
+from util.fuentes import *
 from string import ascii_uppercase as asc
 
 # -----------------------------------------------------------------------------
@@ -44,7 +44,7 @@ def leer_csv(ruta_csv, encabezado=False):
         return pd.read_csv(ruta_csv) if encabezado else f(ruta_csv)
 
     except FileNotFoundError or TypeError:
-        print(Fuente.ROJO + "Archivo no encontrado: " + ruta_csv + Fuente.FIN)
+        print_error("Archivo no encontrado: " + ruta_csv)
         exit(-1)
 
 # -----------------------------------------------------------------------------
