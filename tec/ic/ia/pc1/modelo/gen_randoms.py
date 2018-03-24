@@ -126,7 +126,7 @@ def indicador(columna, positivo, negativo,
 
 # -----------------------------------------------------------------------------
 
-from time import time
+
 def random_indicadores(df_indicadores, canton):
 
     """
