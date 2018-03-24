@@ -1,84 +1,62 @@
 # -----------------------------------------------------------------------------
 
+import os
 import pytest
+from g03 import *
 
-import numpy as np
-from funciones_julian import *
-from funciones_armando import *
-from funciones_brandon import *
-from time import time
-
-# -----------------------------------------------------------------------------
-
-
-def test_obtener_fila_por_elemento1():
-
-    actas = '../archivos/actas.csv'
-    datos = csv_a_listas(actas)
-
-    start_time = time()
-
-    for i in range(0,100000):
-        obtener_datos_de_junta(randint(1, 6540), datos)
-
-    print(time() - start_time)
-    print('\n')
+"""
+Módulo para probar cuanto dura tomar un muestra de 10^n elementos. 
+Es un prueba de larga duración (2mins en promedio) y utiliza el máximo del cpu.
+"""
 
 # -----------------------------------------------------------------------------
 
 
-def test_panditas():
+def test_generar_muestra_pais():
 
-    actas = '../archivos/actas.csv'
-    datos = obtener_dataframe(actas, encabezado=True)
+    print("\nResultados de país")
 
-    start_time = time()
-    datos = obtener_datos_juntas_random(datos, 100000)
-    print(datos)
+    ruta_actas = os.path.join("..", "archivos", "actas.csv")
+    ruta_indicadores = os.path.join("..", "archivos", "indicadores.csv")
 
-    print(time() - start_time)
-    print('\n')
+    # Decorador para tomar el tiempo de la función
+    @timeit
+    def tiempo_generar_muestra_pais(x):
+        return generar_muestra_pais_aux(x, ruta_actas, ruta_indicadores)
 
-# -----------------------------------------------------------------------------
-
-
-def test_rcp1():
-
-    actas = '../archivos/actas.csv'
-    datos = obtener_dataframe(actas, encabezado=True)
-
-    start_time = time()
-    pesos = obtener_total_votos(datos)
-    tipos = obtener_juntas(datos)
-
-    r = []
-
-    for i in range(0,1000):
-        r.append( random_con_pesos(tipos, pesos) )
-
-    print(len(r))
-
-    print(time() - start_time)
+    # Empieza con 10 muestras y termina con 100k
+    for n in range(1, 6):
+        tiempo_generar_muestra_pais(10**n)
 
 # -----------------------------------------------------------------------------
 
 
-def test_rcp2():
-    actas = '../archivos/actas.csv'
-    datos = obtener_dataframe(actas, encabezado=True)
+def test_generar_muestra_provincia():
 
-    start_time = time()
-    pesos = obtener_total_votos(datos)
-    tipos = obtener_juntas(datos)
+    ruta_actas = os.path.join("..", "archivos", "actas.csv")
+    ruta_indicadores = os.path.join("..", "archivos", "indicadores.csv")
 
-    r = []
-    d = generar_buckets(tipos, pesos)
+    # Decorador para tomar el tiempo de la función
+    @timeit
+    def tiempo_generar_muestra_provincia(x, prov):
 
-    for i in range(0, 1000):
-        r.append(random_de_juntas(d))
+        return generar_muestra_provincia_aux(
+            x, prov, ruta_actas, ruta_indicadores
+        )
 
-    print(len(r))
+    provincias = [
+        "CARTAGO", "ALAJUELA", "HEREDIA", "PUNTARENAS",
+        "GUANACASTE", "LIMON", "SAN JOSE"
+    ]
 
-    print(time() - start_time)
+    # Empieza con 10 muestras y termina con 100k, esto para cada una de
+    # las provincias
+
+    for provincia in provincias:
+
+        print("Provincia: " + provincia)
+
+        for n in range(1, 6):
+            tiempo_generar_muestra_provincia(10 ** n, provincia)
 
 # -----------------------------------------------------------------------------
