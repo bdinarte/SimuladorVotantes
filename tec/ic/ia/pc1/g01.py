@@ -1,6 +1,7 @@
 # -----------------------------------------------------------------------------
 
 import os
+from pprint import pprint
 from util.timeit import timeit
 from modelo.manejo_muestras import *
 
@@ -30,7 +31,9 @@ def generar_muestra_provincia(n, nombre_provincia):
 
 
 if __name__ == "__main__":
-    muestra = generar_muestra_pais(125000)
+    muestra = generar_muestra_pais(8)
     print("Tamaño de la muestra: " + str(len(muestra)))
+    pprint(muestra)
+
 
 # -----------------------------------------------------------------------------

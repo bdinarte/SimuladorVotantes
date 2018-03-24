@@ -86,14 +86,14 @@ def random_sexo(razon_masculinidad):
     Funcion encargada de generar un random para saber si un individuo
     es hombre o mujer
     :param razon_masculinidad: es el indice de hombres por cada 100 mujeres
-    :return: valor de string indicando el sexo
+    :return: valor booleano indicando el sexo, el hombre es True
     """
 
     porc_hombre = razon_masculinidad/(razon_masculinidad+100)*100
     if random_cero_cien(porc_hombre):
-        return 'M'
+        return True
 
-    return 'F'
+    return False
 
 # -----------------------------------------------------------------------------
 
@@ -119,6 +119,14 @@ def random_edad():
 # -----------------------------------------------------------------------------
 
 
+def definir_indicador(funcion, valor, positivo, negativo):
+    if funcion(valor):
+        return positivo
+    return negativo
+
+# -----------------------------------------------------------------------------
+
+
 def random_indicadores(datos_indicadores, canton):
 
     """
@@ -138,49 +146,41 @@ def random_indicadores(datos_indicadores, canton):
     edad = random_edad()
 
     # --------------- Porcentaje de la poblacion urbana
-    porc_poblacion_urbana = indicadores[1]
-    es_urbano = random_cero_cien(porc_poblacion_urbana)
+    es_urbano = definir_indicador(
+        random_cero_cien, indicadores.J, 'URBANO', 'NO URBANO')
 
     # --------------- Porcentaje de hombres por cada cien mujeres
-    indice_masculinidad = indicadores[1]
-    sexo = random_sexo(indice_masculinidad)
+    sexo = definir_indicador(random_sexo, indicadores.K, 'M', 'F')
 
     # --------------- Porcentaje de dependencia demografica
-    porc_dependencia_demografica = indicadores[1]
-    es_dependiente = 'NO DEPENDIENTE'
-    if edad >= 65 and random_cero_cien(porc_dependencia_demografica):
-        es_dependiente = 'DEPENDIENTE'
+    f = lambda porcentaje: edad >= 65 and random_cero_cien(porcentaje)
+    es_dependiente = definir_indicador(
+        f, indicadores.L, 'DEPENDIENTE', 'NO DEPENDIENTE')
 
     # --------------- Porcentaje de viviendas en buen estado
-    porc_viviendas_buenas = indicadores[1]
-    vivienda_buena = 'VIVIENDA MALA'
-    if random_cero_cien(porc_viviendas_buenas):
-        vivienda_buena = 'VIVIENDA BUENA'
+    vivienda_buena = definir_indicador(
+        random_cero_cien, indicadores.M, 'V. BUEN ESTADO', 'V. MAL ESTADO')
 
     # --------------- Porcentaje de viviendas hacinadas
-    porc_viviendas_hacinadas = indicadores[1]
-    vivienda_hacinada = 'VIVIENDA NO HACINADA'
-    if random_cero_cien(porc_viviendas_hacinadas):
-        vivienda_hacinada = 'VIVIENDA HACINADA'
+    vivienda_hacinada = definir_indicador(
+        random_cero_cien, indicadores.N, 'V. HACINADA', 'V. NO HACINADA')
 
     # --------------- Porcentaje de ser extranjero
-    porc_extranjero = indicadores[1]
-    es_extranjero = 'NO EXTRANJERO'
-    if random_cero_cien(porc_extranjero):
-        es_extranjero = 'EXTRANJERO'
+
+    es_extranjero = definir_indicador(
+        random_cero_cien, indicadores.X, 'EXTRANJERO', 'NO EXTRANJERO')
 
     # --------------- Porcentaje de ser discapacitado
-    porc_discapacidad = indicadores[1]
-    es_discapacitado = 'NO DISCAPACITADO'
-    if random_cero_cien(porc_discapacidad):
-        es_discapacitado = 'DISCAPACITADO'
+
+    es_discapacitado = definir_indicador(
+        random_cero_cien, indicadores.Y, 'DISCAPACITADO', 'NO DISCAPACITADO')
 
     # --------------- Porcentaje de ser no asegurado
-    porc_asegurado = indicadores[1]
-    es_asegurado = 'NO ASEGURADO'
-    if random_cero_cien(porc_asegurado):
-        es_asegurado = 'ASEGURADO'
 
-    return indicadores
+    es_asegurado = definir_indicador(
+        random_cero_cien, indicadores.Z, 'ASEGURADO', 'NO ASEGURADO')
+
+    return [canton, edad, es_urbano, sexo, es_dependiente, vivienda_buena,
+            vivienda_hacinada, es_extranjero, es_discapacitado, es_asegurado]
 
 # -----------------------------------------------------------------------------
