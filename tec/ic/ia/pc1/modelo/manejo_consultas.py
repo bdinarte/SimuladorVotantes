@@ -12,7 +12,7 @@ def obtener_datos_canton(df, canton):
     con indicadores para el cantón especificado.
     :param df: Dataframe resultado de leer indicadores.csv
     :param canton: Nombre del cantón del que se necesitan sus indicadores
-    :return: pd.Secuence con los indicadores del canton
+    :return: Listas con los indicadores del canton
     """
 
     try:
@@ -89,19 +89,6 @@ def obtener_opciones_voto(df):
 # -----------------------------------------------------------------------------
 
 
-def obtener_votos_junta(df):
-
-    """
-    Consulta los votos obtenidos para la junta específicada
-    :param df: Dataframe de la junta a consultar
-    :return: ps.Secuence con los votos por cada partido en una junta
-    """
-
-    return df["ACCESIBILIDAD SIN EXCLUSION":"BLANCO"]
-
-# -----------------------------------------------------------------------------
-
-
 def obtener_total_votos(df):
 
     """
@@ -112,7 +99,6 @@ def obtener_total_votos(df):
     """
 
     df_total_votos = df["VOTOS RECIBIDOS"]
-    df_total_votos = df_total_votos.values.tolist()
-    return df_total_votos
+    return df_total_votos.values.tolist()
 
 # -----------------------------------------------------------------------------
