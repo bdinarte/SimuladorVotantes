@@ -166,6 +166,40 @@ def obtener_indicadores_canton(df, canton):
         exit(-1)
 
 
+# -----------------------------------------------------------------------------
+
+def random_cero_cien(valor_comparacion):
+    """
+    Funcion encargada de generar un random de cero a 100 para saber si un
+    indicador es positivo o negativo para un determinado individuo
+    :param valor_comparacion: es el porcentaje que posee el indicador
+    para saber si es positivo o negativo
+    :return: valor booleano, que indica si el numero generado se encuentra
+    en el rango del valor de comparacion o no.
+    """
+    numero_random = randint(0, 100)
+    if numero_random <= int(valor_comparacion):
+        return True
+
+    return False
+
+
+
+# -----------------------------------------------------------------------------
+
+def random_sexo(razon_masculinidad):
+    """
+    Funcion encargada de generar un random para saber si un individuo
+    es hombre o mujer
+    :param razon_masculinidad: es el indice de hombres por cada 100 mujeres
+    :return: valor de string indicando el sexo
+    """
+
+    porc_hombre = int(razon_masculinidad/(razon_masculinidad+100)*100)
+    if random_cero_cien(porc_hombre):
+        return 'M'
+
+    return 'F'
 
 # -----------------------------------------------------------------------------
 
