@@ -2,20 +2,23 @@
 
 import pandas as pd
 from g01 import *
-<<<<<<< HEAD
 from funciones_brandon import generar_buckets
 from fuentes import Fuente
-=======
-from util.fuentes import Fuente
-from multiprocessing import Pool
->>>>>>> 4cdbe450822bc80722489ae976b1148ebd946f1a
 from string import ascii_uppercase as ascii
+from multiprocessing import Pool, TimeoutError, Condition
+from multiprocessing import Process, Lock
 
 # -----------------------------------------------------------------------------
 
 # Configurar pandas para solo mostrar una tablaña
 pd.set_option("display.max_columns", 7)
 pd.set_option("display.max_rows", 10)
+
+# -----------------------------------------------------------------------------
+
+# Variables para obtener los csv
+ruta_actas = 'archivos/actas.csv'
+ruta_indicadores = 'archivos/indicadores.csv'
 
 # -----------------------------------------------------------------------------
 
@@ -198,7 +201,7 @@ def obtener_opciones_voto(df):
 # -----------------------------------------------------------------------------
 
 
-def generar_muestra_multiproceso(n_muestras, df_juntas):
+def generar_muestra_threads(n_muestras, df_juntas):
 
     """
     Generar un conjunto de "votantes" mediante la función
