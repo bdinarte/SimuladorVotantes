@@ -54,22 +54,16 @@ def generar_muestra_provincia(n, nombre_provincia):
 # Funcion compartida
 
 
-def generar_muestra(n, df_juntas):
+def generar_muestra(n, df_juntas, df_indicadores, partidos, juntas_con_pesos):
 
     try:
         global ruta_indicadores
 
         muestra = []
 
-        df_indicadores = funcJ.obtener_dataframe(ruta_indicadores, ordenar=True)
-
-        partidos = funcJ.obtener_opciones_voto(df_juntas)
-        lista_juntas = funcJ.obtener_juntas(df_juntas)
-        total_votos = funcJ.obtener_total_votos(df_juntas)
-
         for num_muestra in range(0, n):
 
-            junta_random = funcB.random_con_pesos(lista_juntas, total_votos)
+            junta_random = funcB.random_de_juntas(juntas_con_pesos)
             datos_junta = funcJ.obtener_datos_junta(df_juntas, junta_random)
             votos_junta = datos_junta[3:18]
             voto_muestra = funcB.random_con_pesos(partidos, votos_junta)
@@ -100,7 +94,6 @@ def writecsv(lista):
 
 if __name__ == "__main__":
     start_time = time()
-    resultado = generar_muestra_provincia(159, 'ALAJUELA')
-    print(resultado)
+    resultado = generar_muestra_pais(100000)
     print(len(resultado))
     print(time() - start_time)
