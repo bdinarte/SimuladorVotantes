@@ -195,8 +195,8 @@ def random_cero_cien(valor_comparacion):
     :return: valor booleano, que indica si el numero generado se encuentra
     en el rango del valor de comparacion o no.
     """
-    numero_random = randint(0, 100)
-    if numero_random <= int(valor_comparacion):
+    numero_random = randint(1, 10000)
+    if numero_random <= valor_comparacion*100:
         return True
 
     return False
@@ -220,6 +220,25 @@ def random_sexo(razon_masculinidad):
     return 'F'
 
 
+# -----------------------------------------------------------------------------
+def random_edad():
+
+    """
+    Funcion encargada de generar una edad para un individuo
+    Segun los datos tomados de los indicadores demograficos
+    cantonales del anho 2013. Donde un 69p de personas estan
+    entre 18 y 64 anhos, y un 7p de 65 a mas anhos.
+    El otro grupo (menores de edad) no se toma en cuenta en la
+    edad a generar para los votantes.
+    :return: Edad que va ser asignada a un individuo
+    """
+    numero_random = randint(1, 76)
+    if(numero_random <= 69):
+        return randint(18, 64)
+
+    return randint(64, 100)
+
+
 
 # -----------------------------------------------------------------------------
 
@@ -235,5 +254,53 @@ def random_indicadores(datos_indicadores, canton):
     """
 
     indicadores = obtener_indicadores_canton(datos_indicadores, canton)
+
+    #--------------- Generacion de una edad para el individuo
+    edad = random_edad()
+
+    # --------------- Porcentaje de la poblacion urbana
+    porc_poblacion_urbana = indicadores[1]
+    es_urbano = random_cero_cien(porc_poblacion_urbana)
+
+    # --------------- Porcentaje de hombres por cada cien mujeres
+    indice_masculinidad = indicadores[1]
+    sexo = random_sexo(indice_masculinidad)
+
+    # --------------- Porcentaje de dependencia demografica
+    porc_dependencia_demografica = indicadores[1]
+    es_dependiente = 'NO DEPENDIENTE'
+    if edad >= 65 and random_cero_cien(porc_dependencia_demografica):
+        es_dependiente = 'DEPENDIENTE'
+
+    # --------------- Porcentaje de viviendas en buen estado
+    porc_viviendas_buenas = indicadores[1]
+    vivienda_buena = 'VIVIENDA MALA'
+    if random_cero_cien(porc_viviendas_buenas):
+        vivienda_buena = 'VIVIENDA BUENA'
+
+    # --------------- Porcentaje de viviendas hacinadas
+    porc_viviendas_hacinadas = indicadores[1]
+    vivienda_hacinada = 'VIVIENDA NO HACINADA'
+    if random_cero_cien(porc_viviendas_hacinadas):
+        vivienda_hacinada = 'VIVIENDA HACINADA'
+
+    # --------------- Porcentaje de ser extranjero
+    porc_extranjero = indicadores[1]
+    es_extranjero = 'NO EXTRANJERO'
+    if random_cero_cien(porc_extranjero):
+        es_extranjero = 'EXTRANJERO'
+
+    # --------------- Porcentaje de ser discapacitado
+    porc_discapacidad = indicadores[1]
+    es_discapacitado = 'NO DISCAPACITADO'
+    if random_cero_cien(porc_discapacidad):
+        es_discapacitado = 'DISCAPACITADO'
+
+    # --------------- Porcentaje de ser no asegurado
+    porc_asegurado = indicadores[1]
+    es_asegurado = 'NO ASEGURADO'
+    if random_cero_cien(porc_asegurado):
+        es_asegurado = 'ASEGURADO'
+
 
     return indicadores
