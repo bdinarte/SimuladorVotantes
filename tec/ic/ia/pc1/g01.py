@@ -1,15 +1,17 @@
 # -----------------------------------------------------------------------------
 
+import os
 from time import time
 import funciones_julian as funcJ
 import funciones_brandon as funcB
+from timeit import timeit
 
 # -----------------------------------------------------------------------------
 
 # Variables globales para archivos
 
-ruta_actas = "archivos/actas.csv"
-ruta_indicadores = "archivos/indicadores.csv"
+ruta_actas = os.path.join("archivos", "actas.csv")
+ruta_indicadores = os.path.join("archivos", "indicadores.csv")
 
 # -----------------------------------------------------------------------------
 
@@ -23,7 +25,7 @@ def generar_muestra_pais(n):
         global ruta_actas
 
         juntas_pais = funcJ.obtener_dataframe(ruta_actas, encabezado=True)
-        return funcJ.generar_muestra_threads(n, juntas_pais)
+        return funcJ.generar_muestra_multiproceso(n, juntas_pais)
 
     except Exception as error:
         print("generar_muestra_pais: " + str(error))
@@ -43,7 +45,7 @@ def generar_muestra_provincia(n, nombre_provincia):
         juntas_prov = funcJ.obtener_datos_juntas_provincia(juntas_pais,
                                                            nombre_provincia
                                                            )
-        return funcJ.generar_muestra_threads(n, juntas_prov)
+        return funcJ.generar_muestra_multiproceso(n, juntas_prov)
 
     except Exception as error:
         print("generar_muestra_pais: " + str(error))
@@ -100,7 +102,7 @@ def writecsv(lista):
 
 if __name__ == "__main__":
     start_time = time()
-    resultado = generar_muestra_provincia(159, 'ALAJUELA')
+    resultado = generar_muestra_pais(100000)
     print(resultado)
     print(len(resultado))
     print(time() - start_time)

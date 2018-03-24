@@ -3,21 +3,14 @@
 import pandas as pd
 from g01 import *
 from fuentes import Fuente
+from multiprocessing import Pool
 from string import ascii_uppercase as ascii
-from multiprocessing import Pool, TimeoutError, Condition
-from multiprocessing import Process, Lock
 
 # -----------------------------------------------------------------------------
 
 # Configurar pandas para solo mostrar una tablaña
 pd.set_option("display.max_columns", 7)
 pd.set_option("display.max_rows", 10)
-
-# -----------------------------------------------------------------------------
-
-# Variables para obtener los csv
-ruta_actas = 'archivos/actas.csv'
-ruta_indicadores = 'archivos/indicadores.csv'
 
 # -----------------------------------------------------------------------------
 
@@ -200,7 +193,7 @@ def obtener_opciones_voto(df):
 # -----------------------------------------------------------------------------
 
 
-def generar_muestra_threads(n_muestras, df_juntas):
+def generar_muestra_multiproceso(n_muestras, df_juntas):
 
     """
     Generar un conjunto de "votantes" mediante la función
@@ -211,8 +204,8 @@ def generar_muestra_threads(n_muestras, df_juntas):
     @return: Lista con sublistas, donde cada sublista es un votante
     """
 
-    # Cantidad de procesos que generarám muestras
-    n_procesos = 4
+    # Cantidad de procesos que generarán muestras
+    n_procesos = 8
 
     # Si cada proceso tuviese que hacer menos de 25 muestras (podría ser
     # cualquier otro número mayor a 4), resulta mejor usar solo un proceso
