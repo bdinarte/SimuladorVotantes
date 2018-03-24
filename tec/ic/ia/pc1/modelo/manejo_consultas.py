@@ -16,7 +16,7 @@ def obtener_datos_canton(df, canton):
     """
 
     try:
-        return df.loc[canton]
+        return [canton] + df.loc[canton].values.tolist()
     except KeyError:
         print_error("Cantón no encontrado: " + canton)
         exit(-1)
@@ -44,10 +44,10 @@ def obtener_datos_junta(df, n_junta):
     Obtener una fila según el número de junta
     :param df: Dataframe resultado de leer actas.csv
     :param n_junta: número de junta
-    :return: pd.Secuence con los datos de la junta
+    :return: lista con los datos de la junta
     """
 
-    return df.loc[n_junta]
+    return [n_junta] + df.loc[n_junta].values.tolist()
 
 # -----------------------------------------------------------------------------
 

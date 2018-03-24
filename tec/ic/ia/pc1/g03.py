@@ -30,7 +30,7 @@ def generar_muestra_provincia(n, nombre_provincia):
 
 
 if __name__ == "__main__":
-    muestra = generar_muestra_pais(8)
+    muestra = generar_muestra_pais(100000)
     print("Tamaño de la muestra: " + str(len(muestra)))
 
 # -----------------------------------------------------------------------------

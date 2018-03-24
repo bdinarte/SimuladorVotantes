@@ -110,10 +110,11 @@ def generar_muestra(n, df_juntas, df_indicadores, partidos, juntas_con_pesos):
 
         junta_random = random_de_juntas(juntas_con_pesos)
         datos_junta = obtener_datos_junta(df_juntas, junta_random)
-        votos_junta = obtener_votos_junta(datos_junta)
+        votos_junta = datos_junta[3:18]
         voto_muestra = random_con_pesos(partidos, votos_junta)
 
-        indic_muestra = random_indicadores(df_indicadores, datos_junta.CANTON)
+        canton = datos_junta[2]
+        indic_muestra = random_indicadores(df_indicadores, canton)
         indic_muestra.append(voto_muestra)
         muestra.append(indic_muestra)
 

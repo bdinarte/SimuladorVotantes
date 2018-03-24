@@ -152,75 +152,75 @@ def random_indicadores(df_indicadores, canton):
     # -------------------------------------------------------------------------
     # Porcentaje de la población urbana
 
-    es_urbano = indicador(columnas.J, 'URBANO', 'NO URBANO')
+    es_urbano = indicador(columnas[9], 'URBANO', 'NO URBANO')
 
     # -------------------------------------------------------------------------
     # Porcentaje de hombres por cada cien mujeres
 
-    sexo = indicador(columnas.K, 'M', 'F', random_sexo)
+    sexo = indicador(columnas[10], 'M', 'F', random_sexo)
 
     # -------------------------------------------------------------------------
     # Porcentaje de dependencia demográfica
 
     f = lambda porcent: edad >= 65 and random_cero_cien(porcent)
-    es_dependiente = indicador(columnas.L, 'DEPENDIENTE', 'NO DEPENDIENTE', f)
+    es_dependiente = indicador(columnas[11], 'DEPENDIENTE', 'NO DEPENDIENTE', f)
 
     # -------------------------------------------------------------------------
     # Porcentaje de viviendas en buen estado
 
-    vivienda_buena = indicador(columnas.M, 'V. BUEN ESTADO', 'V. MAL ESTADO')
+    vivienda_buena = indicador(columnas[12], 'V. BUEN ESTADO', 'V. MAL ESTADO')
 
     # -------------------------------------------------------------------------
     # Porcentaje de viviendas hacinadas
 
-    vivienda_hacinada = indicador(columnas.N, 'V. HACINADA', 'V. NO HACINADA')
+    vivienda_hacinada = indicador(columnas[13], 'V. HACINADA', 'V. NO HACINADA')
 
     # -------------------------------------------------------------------------
     # Porcentaje de Alfabetismo
 
-    columna = columnas.O if edad <= 24 else columnas.P
+    columna = columnas[14] if edad <= 24 else columnas[15]
     alfabetismo = indicador(columna, 'ALFABETIZADO', 'NO ALFABETIZADO')
 
     # -------------------------------------------------------------------------
     # Porcentaje de escolaridad
     # Se aplica Desviación estandar de -2 a 2
 
-    escolaridad = columnas.Q if edad <= 49 else columnas.R
+    escolaridad = columnas[16] if edad <= 49 else columnas[17]
     escolaridad = round(randint(-2, 2) + escolaridad, 2)
 
     # -------------------------------------------------------------------------
     # Porcentaje de asistencia a la educación regular
 
-    columna = columnas.S if edad <= 24 else columnas['T']
+    columna = columnas[18] if edad <= 24 else columnas[19]
     educacion_regular = indicador(
         columna, 'EN EDUCACION REGULAR', 'EDUCACION REGULAR INACTIVA')
 
     # -------------------------------------------------------------------------
     # Tasa neta de participación
 
-    columna = columnas.U if sexo == 'M' else columnas.V
+    columna = columnas[20] if sexo == 'M' else columnas[21]
     es_empleado = indicador(columna, 'EMPLEADO', 'DESEMPLEADO')
 
     # -------------------------------------------------------------------------
     # Porcentaje de ser no asegurado
 
-    columna = columnas.W if es_empleado == 'EMPLEADO' else columnas.Z
+    columna = columnas[22] if es_empleado == 'EMPLEADO' else columnas[25]
     es_asegurado = indicador(columna, 'ASEGURADO', 'NO ASEGURADO')
 
     # -------------------------------------------------------------------------
     # Porcentaje de ser extranjero
 
-    es_extranjero = indicador(columnas.X, 'EXTRANJERO', 'NO EXTRANJERO')
+    es_extranjero = indicador(columnas[23], 'EXTRANJERO', 'NO EXTRANJERO')
 
     # -------------------------------------------------------------------------
     # Porcentaje de ser discapacitado
 
     es_discapacitado = indicador(
-        columnas.Y, 'DISCAPACITADO', 'NO DISCAPACITADO')
+        columnas[24], 'DISCAPACITADO', 'NO DISCAPACITADO')
 
     # -------------------------------------------------------------------------
 
-    return columnas['C':'I'].values.tolist() + [
+    return columnas[2:8] + [
         canton, edad, es_urbano, sexo, es_dependiente, vivienda_buena,
         vivienda_hacinada, alfabetismo, escolaridad, educacion_regular,
         es_empleado, es_asegurado, es_extranjero, es_discapacitado
