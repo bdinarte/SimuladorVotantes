@@ -16,8 +16,7 @@ def obtener_datos_canton(df, canton):
     """
 
     try:
-        fila_canton = df.loc[canton]
-        return [canton] + fila_canton.values.tolist()
+        return df.loc[canton]
     except KeyError:
         print_error("Cantón no encontrado: " + canton)
         exit(-1)
