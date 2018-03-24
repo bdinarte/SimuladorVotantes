@@ -1,5 +1,6 @@
 # -----------------------------------------------------------------------------
 
+import csv
 import pandas as pd
 from util.fuentes import *
 from string import ascii_uppercase as asc
@@ -62,6 +63,22 @@ def leer_csv_sin_encabezado(ruta_csv):
     dataframe = pd.read_csv(ruta_csv, skiprows=[0], header=None)
     dataframe.columns = obtener_encabezado(len(dataframe.columns))
     return dataframe
+
+# -----------------------------------------------------------------------------
+
+
+def guardar_como_csv(lista, nombre_archivo):
+
+    """
+    Escribe una lista de lista en un csv como si fuese una tabla
+    :param lista: lista de listas
+    :param nombre_archivo: ruta + nombre del archivo
+    """
+
+    with open(nombre_archivo, "w") as f:
+        writer = csv.writer(f)
+        writer.writerows(lista)
+
 
 # -----------------------------------------------------------------------------
 
