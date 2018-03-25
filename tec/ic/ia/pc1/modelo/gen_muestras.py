@@ -21,26 +21,43 @@ encabezado = [
     "SEGURO", "N.EXTRANJERO", "C.DISCAPACIDAD", "POBLACION TOTAL",
     "SUPERFICIE", "DENSIDAD POBLACION", "VIVIENDAS INDIVIDUALES OCUPADAS",
     "PROMEDIO DE OCUPANTES", "P.JEFAT.FEMENINA", "P.JEFAT.COMPARTIDA",
-    "VOTO"
+    "PARTIDO"
 ]
 
 # -----------------------------------------------------------------------------
 
 
-def ejecutar_analisis_muestra_pais(lista_muestra, ruta_salida):
+def contar_votos_partidos(df_muestra):
 
-    # Se crear un Dataframe para poder nombrar las columnas y sea fácil de
-    # visualizar
+    df_votos = df_muestra.groupby(["PARTIDO"]).size()
+    df_votos.columns = ["PARTIDO", "VOTOS"]
+    return df_votos.sort_values(ascending=False)
+
+# -----------------------------------------------------------------------------
+
+
+def ejecutar_analisis_muestra_pais(lista_muestra):
+
+    ruta_base = os.path.join("..", "archivos")
+    ruta_votantes = os.path.join(ruta_base, "votantes.csv")
+    ruta_conteo_votos = os.path.join(ruta_base, "conteo_votos.csv")
+
+    # Se crear un Dataframe para poder nombrar las columnas y sea
+    # fácil de visualizar
     df_muestra = pd.DataFrame(lista_muestra, columns=encabezado)
 
-    # Guardar el archivo y mostrarlo al finalizar
-    guardar_como_csv(df_muestra, ruta_salida)
+    # Se hace el conteo de votos para cada partido
+    df_conteo_votos = contar_votos_partidos(df_muestra)
 
-    # Se trata de abrir el archivo generado, sino, no hay problema
+    # Guardar cada uno de los archivos generados
+    guardar_como_csv(df_muestra, ruta_votantes)
+    guardar_como_csv(df_conteo_votos, ruta_conteo_votos)
+
+    # Se trata de abrir la carpeta donde están los archivos
     try:
-        os.startfile(ruta_salida)
-    except PermissionError:
-        print("No se pudo abrir el archivo generado")
+        os.startfile(ruta_base)
+    except Exception:
+        print("No se pudo abrir el directorio donde se guardaron los archivos")
 
 
 # -----------------------------------------------------------------------------
@@ -50,13 +67,10 @@ if __name__ == "__main__":
 
     ruta_actas = os.path.join("..", "archivos", "actas.csv")
     ruta_indicadores = os.path.join("..", "archivos", "indicadores.csv")
-    ruta_votantes = os.path.join("..", "archivos", "votantes.csv")
 
     # Con 100 votantes se considera suficiente para ser revisado manualmente
     # e incluso notar una distribución en los datos
     muestra = generar_muestra_pais_aux(100, ruta_actas, ruta_indicadores)
-
-    # Se crea y abre el csv generado
-    ejecutar_analisis_muestra_pais(muestra, ruta_votantes)
+    ejecutar_analisis_muestra_pais(muestra)
 
 # -----------------------------------------------------------------------------
