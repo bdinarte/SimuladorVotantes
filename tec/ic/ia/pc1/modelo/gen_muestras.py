@@ -2,8 +2,10 @@
 
 import os
 import pytest
-from g03 import *
 import pandas as pd
+
+from g03 import *
+from modelo.manejo_archivos import *
 
 """
 Módulo para generar muestras y escribirlas en un csv para luego realizar el
@@ -15,27 +17,45 @@ análisis correspondiente.
 encabezado = [
     "CANTON", "EDAD", "ES URBANO", "SEXO", "ES DEPENDIENTE",
     "ESTADO VIVIENDA", "E.HACINAMIENTO", "ALFABETIZACIÓN",
-    "ESCOLARIDAD PROMEDIO", "ASISTENCIA EDUCACIÓN", "FUERZA DE TRABAJO",
-    "SEGURO", "N.EXTRANJERO", "C.DISCAPACIDAD"
+    "ESCOLARIDAD PROMEDIO", "ASISTENCIA EDUCACION", "FUERZA DE TRABAJO",
+    "SEGURO", "N.EXTRANJERO", "C.DISCAPACIDAD", "POBLACION TOTAL",
+    "SUPERFICIE", "DENSIDAD POBLACION", "VIVIENDAS INDIVIDUALES OCUPADAS",
+    "PROMEDIO DE OCUPANTES", "P.JEFAT.FEMENINA", "P.JEFAT.COMPARTIDA"
 ]
 
 # -----------------------------------------------------------------------------
 
 
-def ejecutar_analisis_muestra_pais(lista):
+def ejecutar_analisis_muestra_pais(lista_muestra, ruta_salida):
 
-    df = pd.DataFrame(lista, columns=encabezado)
+    # Se crear un Dataframe para poder nombrar las columnas y sea fácil de
+    # visualizar
+    df_muestra = pd.DataFrame(lista_muestra, columns=encabezado)
+
+    # Guardar el archivo y mostrarlo al finalizar
+    guardar_como_csv(df_muestra, ruta_salida)
+
+    # Se trata de abrir el archivo generado, sino, no hay problema
+    try:
+        os.startfile(ruta_salida)
+    except PermissionError:
+        print("No se pudo abrir el archivo generado")
+
+
+# -----------------------------------------------------------------------------
+
+
+if __name__ == "__main__":
 
     ruta_actas = os.path.join("..", "archivos", "actas.csv")
     ruta_indicadores = os.path.join("..", "archivos", "indicadores.csv")
+    ruta_votantes = os.path.join("..", "archivos", "votantes.csv")
 
-    # Decorador para tomar el tiempo de la función
-    @timeit
-    def tiempo_generar_muestra_pais(x):
-        return generar_muestra_pais_aux(x, ruta_actas, ruta_indicadores)
+    # Con 100 votantes se considera suficiente para ser revisado manualmente
+    # e incluso notar una distribución en los datos
+    muestra = generar_muestra_pais_aux(100, ruta_actas, ruta_indicadores)
 
-    # Empieza con 10 muestras y termina con 100k
-    for n in range(1, 6):
-        tiempo_generar_muestra_pais(10**n)
+    # Se crea y abre el csv generado
+    ejecutar_analisis_muestra_pais(muestra, ruta_votantes)
 
 # -----------------------------------------------------------------------------
