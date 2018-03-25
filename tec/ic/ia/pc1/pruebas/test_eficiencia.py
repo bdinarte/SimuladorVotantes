@@ -1,7 +1,5 @@
 # -----------------------------------------------------------------------------
 
-import os
-import pytest
 from g03 import *
 
 """
@@ -16,13 +14,13 @@ def test_generar_muestra_pais():
 
     print("\nResultados de país")
 
-    ruta_actas = os.path.join("..", "archivos", "actas.csv")
-    ruta_indicadores = os.path.join("..", "archivos", "indicadores.csv")
+    ruta_a = os.path.join("..", RUTA_ACTAS)
+    ruta_i = os.path.join("..", RUTA_INDICADORES)
 
     # Decorador para tomar el tiempo de la función
     @timeit
     def tiempo_generar_muestra_pais(x):
-        return generar_muestra_pais_aux(x, ruta_actas, ruta_indicadores)
+        return generar_muestra_pais_aux(x, ruta_a, ruta_i)
 
     # Empieza con 10 muestras y termina con 100k
     for n in range(1, 6):
@@ -33,16 +31,14 @@ def test_generar_muestra_pais():
 
 def test_generar_muestra_provincia():
 
-    ruta_actas = os.path.join("..", "archivos", "actas.csv")
-    ruta_indicadores = os.path.join("..", "archivos", "indicadores.csv")
+    ruta_a = os.path.join("..", RUTA_ACTAS)
+    ruta_i = os.path.join("..", RUTA_INDICADORES)
 
     # Decorador para tomar el tiempo de la función
     @timeit
     def tiempo_generar_muestra_provincia(x, prov):
 
-        return generar_muestra_provincia_aux(
-            x, prov, ruta_actas, ruta_indicadores
-        )
+        return generar_muestra_provincia_aux(x, prov, ruta_a, ruta_i)
 
     provincias = [
         "CARTAGO", "ALAJUELA", "HEREDIA", "PUNTARENAS",
