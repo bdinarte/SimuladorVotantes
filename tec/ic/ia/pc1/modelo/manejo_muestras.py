@@ -1,5 +1,7 @@
 # -----------------------------------------------------------------------------
 
+import random
+from time import time
 from modelo.gen_randoms import *
 from modelo.manejo_archivos import *
 from modelo.manejo_consultas import *
@@ -103,6 +105,7 @@ def generar_muestra_threads(n_muestras, df_juntas, df_indicadores):
 def generar_muestra(n, df_juntas, indicadores, partidos, juntas_con_pesos):
 
     muestra = []
+    random.seed(time())
 
     for num_muestra in range(0, n):
 
