@@ -47,7 +47,6 @@ def test_generar_muestra_pais():
 
 def test_generar_muestra_provincia():
 
-
     ruta_a = os.path.join("..", RUTA_ACTAS)
     ruta_i = os.path.join("..", RUTA_INDICADORES)
 
