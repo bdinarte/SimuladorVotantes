@@ -9,7 +9,6 @@ from multiprocessing import Pool, cpu_count
 
 
 def generar_muestra_pais_aux(n, ruta_actas, ruta_indicadores):
-
     """
     TODO: Documentar
     @param n:
@@ -26,7 +25,6 @@ def generar_muestra_pais_aux(n, ruta_actas, ruta_indicadores):
 
 
 def generar_muestra_provincia_aux(n, provincia, ruta_actas, ruta_indicadores):
-
     """
     TODO: Documentar
     @param n:
@@ -45,7 +43,6 @@ def generar_muestra_provincia_aux(n, provincia, ruta_actas, ruta_indicadores):
 
 
 def generar_muestra_threads(n_muestras, df_juntas, df_indicadores):
-
     """
     Generar un conjunto de "votantes" mediante la función
     generar_muestra(n,_muestras, df_juntas) pero usando 4 procesos

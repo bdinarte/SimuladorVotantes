@@ -7,7 +7,6 @@ from modelo.manejo_consultas import *
 
 
 def random_con_pesos(atributos, pesos):
-
     """
     Genera un aleatorio según los porcentajes de cada elemento
     :param atributos: lista de elementos candidatos a escogerse
@@ -27,7 +26,6 @@ def random_con_pesos(atributos, pesos):
 
 
 def random_de_juntas(tipos_repetidos):
-
     """
     TODO: Falta documentación
     :param tipos_repetidos:
@@ -41,7 +39,6 @@ def random_de_juntas(tipos_repetidos):
 
 
 def generar_buckets(tipos, cantidades):
-
     """
     TODO: Falta documentación
     :param tipos
@@ -61,7 +58,6 @@ def generar_buckets(tipos, cantidades):
 # -----------------------------------------------------------------------------
 
 def random_cero_cien(valor_comparacion):
-
     """
     Función encargada de generar un random de cero a 100 para saber si un
     indicador es positivo o negativo para un determinado individuo
@@ -78,7 +74,6 @@ def random_cero_cien(valor_comparacion):
 
 
 def random_sexo(razon_masculinidad):
-
     """
     Función encargada de generar un random para saber si un individuo
     es hombre o mujer
@@ -93,7 +88,6 @@ def random_sexo(razon_masculinidad):
 
 
 def random_edad():
-
     """
     Función encargada de generar una edad para un individuo según los datos
     tomados de los indicadores demográficos cantonales del anho 2013. Donde
@@ -111,7 +105,6 @@ def random_edad():
 
 def indicador(columna, positivo, negativo,
               funcion_random=random_cero_cien):
-
     """
     Esta función se utiliza únicamente en random_indicadores, con el fin
     de acortar el tamaño de cada una de las líneas
@@ -128,7 +121,6 @@ def indicador(columna, positivo, negativo,
 
 
 def random_indicadores(df_indicadores, canton):
-
     """
     Función encargada de obtener los indicadores de un cierto cantón, tomar
     los campos a los que se les debe aplicar un random y llamar a las
@@ -162,8 +154,9 @@ def random_indicadores(df_indicadores, canton):
     # -------------------------------------------------------------------------
     # Porcentaje de dependencia demográfica
 
-    f = lambda porcent: edad >= 65 and random_cero_cien(porcent)
-    es_dependiente = indicador(columnas[11], 'DEPENDIENTE', 'NO DEPENDIENTE', f)
+    def f(porcent): return edad >= 65 and random_cero_cien(porcent)
+    es_dependiente = indicador(
+        columnas[11], 'DEPENDIENTE', 'NO DEPENDIENTE', f)
 
     # -------------------------------------------------------------------------
     # Porcentaje de viviendas en buen estado
@@ -173,7 +166,8 @@ def random_indicadores(df_indicadores, canton):
     # -------------------------------------------------------------------------
     # Porcentaje de viviendas hacinadas
 
-    vivienda_hacinada = indicador(columnas[13], 'V. HACINADA', 'V. NO HACINADA')
+    vivienda_hacinada = indicador(
+        columnas[13], 'V. HACINADA', 'V. NO HACINADA')
 
     # -------------------------------------------------------------------------
     # Porcentaje de Alfabetismo

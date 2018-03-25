@@ -15,7 +15,6 @@ pd.set_option("display.max_rows", 10)
 
 
 def obtener_encabezado(n_columnas):
-
     """
     Función para generar los encabezados de un dataframe al igual que
     los de excel, es decir, ['A', 'B', 'C', 'D' ... 'AA', 'AB', 'AC' ... }
@@ -33,7 +32,6 @@ def obtener_encabezado(n_columnas):
 
 
 def leer_csv(ruta_csv, encabezado=False):
-
     """
     Lee un dataframe desde un csv.
     :param ruta_csv: nombre completo del archivo csv
@@ -53,7 +51,6 @@ def leer_csv(ruta_csv, encabezado=False):
 
 
 def leer_csv_sin_encabezado(ruta_csv):
-
     """
     Lee un dataframe desde un csv y coloca un encabezado por defecto
     :param ruta_csv: nombre completo del archivo csv
@@ -87,7 +84,6 @@ def guardar_como_csv(df, nombre_archivo):
 
 
 def obtener_dataframe(ruta_csv, encabezado=False):
-
     """
     Lee un dataframe desde un csv.
     :param ruta_csv: nombre completo del archivo csv
