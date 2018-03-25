@@ -64,16 +64,20 @@ def leer_csv_sin_encabezado(ruta_csv):
 # -----------------------------------------------------------------------------
 
 
-def guardar_como_csv(lista, nombre_archivo):
+def guardar_como_csv(df, nombre_archivo):
+
     """
     Escribe una lista de lista en un csv como si fuese una tabla
-    :param lista: lista de listas
+    :param df: Dataframe a guarda
     :param nombre_archivo: ruta + nombre del archivo
     """
 
-    with open(nombre_archivo, "w") as f:
-        writer = csv.writer(f)
-        writer.writerows(lista)
+    try:
+        df.to_csv(nombre_archivo)
+
+    except Exception:
+        print_error("Error al guardar el archivo: " + nombre_archivo)
+        print_error("Puede que este siendo utilizado por otro proceso")
 
 
 # -----------------------------------------------------------------------------
