@@ -9,7 +9,6 @@ import funciones_brandon as funcB
 
 
 def test_obtener_dataframe():
-
     """
     Se comprueba que el archivo se abrió correctamente
     """
@@ -24,7 +23,6 @@ def test_obtener_dataframe():
 
 
 def test_obtener_indicadores_canton():
-
     """
     Se debería obtener únicamente la fila 2 que coincide con Atenas
     No importa la cantidad de atributos, pero si que los obtenga todos
@@ -32,7 +30,7 @@ def test_obtener_indicadores_canton():
 
     canton = "ATENAS"
     indicadores = [
-        ["GRECIA", "ALAJUELA",76898, 395.7],
+        ["GRECIA", "ALAJUELA", 76898, 395.7],
         ["ATENAS", "ALAJUELA", 25460, 127.2],
         ["FLORES", "HEREDIA", 20037, 7],
         ["LIBERIA", "GUANACASTE", 62987, 1436.5]
@@ -45,7 +43,6 @@ def test_obtener_indicadores_canton():
 
 
 def test_obtener_indicadores_provincia():
-
     """
     Se debería obtener únicamente la fila 3 que coincide con CARTAGO
     No importa la cantidad de atributos, pero si que los obtenga todos
@@ -67,7 +64,6 @@ def test_obtener_indicadores_provincia():
 # -----------------------------------------------------------------------------
 
 def test_convertir_relacion_a_porcentaje():
-
     """
     Hay 92 X por cada 100 Y. Por tanto, los porcentajes son 48 y 52
     Además, ambos porcentajes deben sumar 100
@@ -80,8 +76,8 @@ def test_convertir_relacion_a_porcentaje():
 
 # -----------------------------------------------------------------------------
 
-def test_obtener_datos_junta():
 
+def test_obtener_datos_junta():
     """
     Dado un numero de junta, retorna la fila con los votos de la misma
     Debe obtenerse unicamente la segunda fila que corresponde a la 233
@@ -89,18 +85,18 @@ def test_obtener_datos_junta():
 
     junta = 233
     actas = [
-            [1,"ALAJUELA", "ATENAS", 15, 20],
-            [233,"SAN JOSE", "ASERRI", 111, 1],
+            [1, "ALAJUELA", "ATENAS", 15, 20],
+            [233, "SAN JOSE", "ASERRI", 111, 1],
             [99, "HEREDIA", "FLORES", 123, 999]
-            ]
+    ]
 
     fila = obtener_datos_de_junta(junta, actas)
-    assert fila == [233,"SAN JOSE", "ASERRI", 111, 1]
+    assert fila == [233, "SAN JOSE", "ASERRI", 111, 1]
 
 # -----------------------------------------------------------------------------
 
-def test_random_con_pesos():
 
+def test_random_con_pesos():
     """
     Se define la semilla del random para obtener datos consistentes
     Se espera que el random genere resultados acorde a los pesos
@@ -116,8 +112,7 @@ def test_random_con_pesos():
 
     # randomizar la semilla luego de haberla alterado
     seed(time())
-    
+
     assert resultados == ['tipo4', 'tipo3', 'tipo4', 'tipo3', 'tipo1',
                           'tipo3', 'tipo3', 'tipo4', 'tipo3', 'tipo3'
-                         ]
-
+                          ]

@@ -6,7 +6,6 @@ from util.fuentes import *
 
 
 def obtener_datos_canton(df, canton):
-
     """
     A partir de un dataframe obtiene la fila que contiene la fila con
     con indicadores para el cantón especificado.
@@ -25,7 +24,6 @@ def obtener_datos_canton(df, canton):
 
 
 def obtener_juntas(df):
-
     """
     A partir del dataframe de actas extrae todos los números de junta
     :param df: Dataframe resultado de leer actas.csv
@@ -39,7 +37,6 @@ def obtener_juntas(df):
 
 
 def obtener_datos_junta(df, n_junta):
-
     """
     Obtener una fila según el número de junta
     :param df: Dataframe resultado de leer actas.csv
@@ -53,7 +50,6 @@ def obtener_datos_junta(df, n_junta):
 
 
 def obtener_datos_juntas_provincia(df, provincia):
-
     """
     A partir de un dataframe obtiene las filas de todas las juntas
     que pertenecen a una provincia.
@@ -73,7 +69,6 @@ def obtener_datos_juntas_provincia(df, provincia):
 
 
 def obtener_opciones_voto(df):
-
     """
     A partir del dataframe de actas extrae todos los partidos,
     votos nulos y blancos
@@ -90,7 +85,6 @@ def obtener_opciones_voto(df):
 
 
 def obtener_total_votos(df):
-
     """
     A partir del dataframe de actas, extrae la columna de votos totales y
     la retorna como una lista
