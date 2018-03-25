@@ -6,6 +6,7 @@ import pandas as pd
 
 from g03 import *
 from modelo.manejo_archivos import *
+import matplotlib.pyplot as plt
 
 """
 Módulo para generar muestras y escribirlas en un csv para luego realizar el
@@ -29,9 +30,7 @@ encabezado = [
 
 def contar_votos_partidos(df_muestra):
 
-    df_votos = df_muestra.groupby(["PARTIDO"]).size()
-    df_votos.columns = ["PARTIDO", "VOTOS"]
-    return df_votos.sort_values(ascending=False)
+    return df_muestra.groupby('PARTIDO').size().sort_values()
 
 # -----------------------------------------------------------------------------
 
@@ -49,15 +48,18 @@ def ejecutar_analisis_muestra_pais(lista_muestra):
     # Se hace el conteo de votos para cada partido
     df_conteo_votos = contar_votos_partidos(df_muestra)
 
-    # Guardar cada uno de los archivos generados
-    guardar_como_csv(df_muestra, ruta_votantes)
-    guardar_como_csv(df_conteo_votos, ruta_conteo_votos)
+    df_conteo_votos.plot.barh()
+    plt.show()
 
-    # Se trata de abrir la carpeta donde están los archivos
-    try:
-        os.startfile(ruta_base)
-    except Exception:
-        print("No se pudo abrir el directorio donde se guardaron los archivos")
+    # # Guardar cada uno de los archivos generados
+    # guardar_como_csv(df_muestra, ruta_votantes)
+    # guardar_como_csv(df_conteo_votos, ruta_conteo_votos)
+    #
+    # # Se trata de abrir la carpeta donde están los archivos
+    # try:
+    #     os.startfile(ruta_base)
+    # except Exception:
+    #     print("No se pudo abrir el directorio donde están los archivos")
 
 
 # -----------------------------------------------------------------------------
