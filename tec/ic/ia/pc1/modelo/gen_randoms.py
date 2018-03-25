@@ -27,9 +27,9 @@ def random_con_pesos(atributos, pesos):
 
 def random_de_juntas(tipos_repetidos):
     """
-    TODO: Falta documentación
-    :param tipos_repetidos:
-    :return:
+    Genera un random para las posiciones en una lista de elementos repetidos
+    :param tipos_repetidos: lista de elementos repetidos ordenados
+    :return: el elemento en la posición resultado del random
     """
 
     numero_random = randint(0, len(tipos_repetidos) - 1)
@@ -40,10 +40,11 @@ def random_de_juntas(tipos_repetidos):
 
 def generar_buckets(tipos, cantidades):
     """
-    TODO: Falta documentación
-    :param tipos
-    :param cantidades
-    :return:
+    Genera de elementos repetidos según la lista de nombres de los elementos y
+    la lista con las cantidades para cada uno
+    :param tipos: lista con nombres de los elementos
+    :param cantidades: lista de cantidad para cada nombre
+    :return: lista de elementos repetidos
     """
 
     contador = 0
