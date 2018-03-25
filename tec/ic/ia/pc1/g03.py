@@ -27,10 +27,3 @@ def generar_muestra_provincia(n, nombre_provincia):
                                          RUTA_ACTAS, RUTA_INDICADORES)
 
 # -----------------------------------------------------------------------------
-
-
-if __name__ == "__main__":
-    muestra = generar_muestra_pais(100000)
-    print("Tamaño de la muestra: " + str(len(muestra)))
-
-# -----------------------------------------------------------------------------
