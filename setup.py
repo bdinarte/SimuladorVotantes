@@ -9,7 +9,7 @@ setup(
     packages=find_packages(),
     description="Inteligencia Artificial: Proyecto Corto I",
     long_description="Generador de datos según el Estado de la Nación",
-    version="1.1.1",
+    version="1.1.4",
     author="Julian Salinas, Brandon Dinarte, Armando López",
     license="GNU General Public License v3.0",
     keywords=['tec', 'ic', 'ia', "g03"],
@@ -18,8 +18,9 @@ setup(
     install_requires=['pandas', 'matplotlib', 'pytest'],
     python_requires='>=3',
     include_package_data=True,
-    package_data={"": ["*.txt", "*.csv", ".xlsx"]},
+    package_data={"tec": ["*.txt", "*.csv", ".xlsx"]},
     classifiers=[],
+	data_files=[('tec/ic/ia/pc1/archivos', ['tec/ic/ia/pc1/archivos/indicadores.csv'])],
     entry_points={
         'console_scripts':[
             'generar_muestra_pais = tec.ic.ia.pc1.g03:generar_muestra_pais',
