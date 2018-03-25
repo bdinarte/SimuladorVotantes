@@ -120,13 +120,14 @@ def indicador(columna, positivo, negativo,
 # -----------------------------------------------------------------------------
 
 
-def random_indicadores(df_indicadores, canton):
+def random_indicadores(indicadores, canton):
     """
     Función encargada de obtener los indicadores de un cierto cantón, tomar
     los campos a los que se les debe aplicar un random y llamar a las
     respectivas funciones. Al final se obtiene una lista con todos los
     indicadores que devuelvan dichas funciones secundarias.
-    :param df_indicadores: dataframe del archivo indicadores.csv
+    :param indicadores: lista de lista que contiene los indicadores de los
+    cantones
     :param canton: es sobre el cuál se tomarán los indicadores
     :return: una lista con los K atributos/indicadores que tendrá el individuo
     """
@@ -134,7 +135,7 @@ def random_indicadores(df_indicadores, canton):
     # -------------------------------------------------------------------------
     # pandas.Series con los indicadores de un cantón
 
-    columnas = obtener_datos_canton(df_indicadores, canton)
+    columnas = obtener_datos_canton(indicadores, canton)
 
     # -------------------------------------------------------------------------
     # Generación de una edad para el individuo

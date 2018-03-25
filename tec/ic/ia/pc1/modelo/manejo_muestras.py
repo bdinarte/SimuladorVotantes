@@ -10,11 +10,12 @@ from multiprocessing import Pool, cpu_count
 
 def generar_muestra_pais_aux(n, ruta_actas, ruta_indicadores):
     """
-    TODO: Documentar
-    @param n:
-    @param ruta_actas:
-    @param ruta_indicadores:
-    @return:
+    Función auxiliar para la generación de una muestra del país, el objetivo
+    principal es recibir rutas de los archivos con datos
+    @param n: cantidad de votantes de muestra
+    @param ruta_actas: ruta del archivo con las juntas y votos
+    @param ruta_indicadores: ruta del archivo con indicadores cantonales
+    @return: lista de listas con las muestras de votantes
     """
 
     juntas_pais = obtener_dataframe(ruta_actas, encabezado=True)
@@ -26,12 +27,14 @@ def generar_muestra_pais_aux(n, ruta_actas, ruta_indicadores):
 
 def generar_muestra_provincia_aux(n, provincia, ruta_actas, ruta_indicadores):
     """
-    TODO: Documentar
-    @param n:
-    @param provincia:
-    @param ruta_actas:
-    @param ruta_indicadores:
-    @return:
+    Función auxiliar para la generación de una muestra de una provincia,
+    el objetivo
+    principal es recibir rutas de los archivos con datos
+    @param n: cantidad de votantes de muestra
+    @param provincia: provincia en mayúscula y sin tildes
+    @param ruta_actas: ruta del archivo con las juntas y votos
+    @param ruta_indicadores: ruta del archivo con indicadores cantonales
+    @return: lista de listas con las muestras de votantes
     """
 
     juntas_pais = obtener_dataframe(ruta_actas, encabezado=True)
@@ -101,7 +104,17 @@ def generar_muestra_threads(n_muestras, df_juntas, df_indicadores):
 
 
 def generar_muestra(n, df_juntas, indicadores, partidos, juntas_con_pesos):
-
+    """
+    Función que ejecuta el ciclo para las n muestras definidas, en el cual
+    se obtienen datos que varían según la junta aleatoria
+    :param n: cantidad de votantes de la muestra
+    :param df_juntas: dataframe con las juntas y sus votos
+    :param indicadores: lista de listas con los indicadores de cada cantón
+    :param partidos: lista de partidos políticos disponibles
+    :param juntas_con_pesos: lista de números de junta repetidos según la
+    cantidad total de votos emitidos en dicha junta
+    :return: lista con las muestras de votantes
+    """
     muestra = []
 
     for num_muestra in range(0, n):

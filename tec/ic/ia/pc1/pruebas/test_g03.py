@@ -64,11 +64,29 @@ def test_generar_muestra_provincia():
     assert muestra == [['LA UNION', 29, 'URBANO', 'M', 'NO DEPENDIENTE',
                         'V. MAL ESTADO', 'V. HACINADA', 'ALFABETIZADO', 8.2,
                         'EDUCACION REGULAR INACTIVA', 'DESEMPLEADO',
-                        'ASEGURADO', 'EXTRANJERO', 'NO DISCAPACITADO', 99399, 44.8, 2217, 26979, 3.67, 31.5, 'UNIDAD SOCIAL CRISTIANA'], ['CARTAGO', 50, 'URBANO', 'M', 'NO DEPENDIENTE', 'V. MAL ESTADO', 'V. NO HACINADA', 'ALFABETIZADO', 5.6, 'EDUCACION REGULAR INACTIVA', 'DESEMPLEADO', 'NO ASEGURADO', 'NO EXTRANJERO', 'DISCAPACITADO', 147898, 287.8, 514, 38618, 3.8, 28.7, 'NULO']]
+                        'ASEGURADO', 'EXTRANJERO', 'NO DISCAPACITADO', 99399,
+                        44.8, 2217, 26979, 3.67, 31.5,
+                        'UNIDAD SOCIAL CRISTIANA'],
+                       ['CARTAGO', 50, 'URBANO', 'M', 'NO DEPENDIENTE',
+                        'V. MAL ESTADO', 'V. NO HACINADA', 'ALFABETIZADO', 5.6,
+                        'EDUCACION REGULAR INACTIVA', 'DESEMPLEADO',
+                        'NO ASEGURADO', 'NO EXTRANJERO', 'DISCAPACITADO',
+                        147898, 287.8, 514, 38618, 3.8, 28.7, 'NULO']]
 
     muestra = generar_muestra_provincia_aux(2, 'HEREDIA', ruta_a, ruta_i)
 
-    assert muestra == [['HEREDIA', 32, 'URBANO', 'M', 'NO DEPENDIENTE', 'V. MAL ESTADO', 'V. NO HACINADA', 'ALFABETIZADO', 11.2, 'EDUCACION REGULAR INACTIVA', 'DESEMPLEADO', 'NO ASEGURADO', 'NO EXTRANJERO', 'NO DISCAPACITADO', 123616, 282.6, 437, 35216, 3.5, 34.9, 'ACCION CIUDADANA'], ['SANTA BARBARA', 20, 'URBANO', 'M', 'NO DEPENDIENTE', 'V. BUEN ESTADO', 'V. NO HACINADA', 'ALFABETIZADO', 11.6, 'EDUCACION REGULAR INACTIVA', 'DESEMPLEADO', 'NO ASEGURADO', 'NO EXTRANJERO', 'DISCAPACITADO', 36243, 53.2, 681, 10107, 3.58, 24.6, 'ACCION CIUDADANA']]
+    assert muestra == [['HEREDIA', 32, 'URBANO', 'M', 'NO DEPENDIENTE',
+                        'V. MAL ESTADO', 'V. NO HACINADA', 'ALFABETIZADO',
+                        11.2, 'EDUCACION REGULAR INACTIVA', 'DESEMPLEADO',
+                        'NO ASEGURADO', 'NO EXTRANJERO', 'NO DISCAPACITADO',
+                        123616, 282.6, 437, 35216, 3.5, 34.9,
+                        'ACCION CIUDADANA'],
+                       ['SANTA BARBARA', 20, 'URBANO', 'M', 'NO DEPENDIENTE',
+                        'V. BUEN ESTADO', 'V. NO HACINADA', 'ALFABETIZADO',
+                        11.6, 'EDUCACION REGULAR INACTIVA', 'DESEMPLEADO',
+                        'NO ASEGURADO', 'NO EXTRANJERO', 'DISCAPACITADO',
+                        36243, 53.2, 681, 10107, 3.58, 24.6,
+                        'ACCION CIUDADANA']]
 
     # Aleatorizar la semilla en caso que la prueba se corra individualmente
     seed(time())
