@@ -218,6 +218,6 @@ def random_indicadores(df_indicadores, canton):
         canton, edad, es_urbano, sexo, es_dependiente, vivienda_buena,
         vivienda_hacinada, alfabetismo, escolaridad, educacion_regular,
         es_empleado, es_asegurado, es_extranjero, es_discapacitado
-    ] + columnas[2:8]
+    ] + columnas[2:9]
 
 # -----------------------------------------------------------------------------
