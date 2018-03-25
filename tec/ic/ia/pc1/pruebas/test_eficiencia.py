@@ -4,7 +4,8 @@ from g03 import *
 
 """
 Módulo para probar cuanto dura tomar un muestra de 10^n elementos. 
-Es un prueba de larga duración (2mins en promedio) y utiliza el máximo del cpu.
+Es una prueba de larga duración (2mins en promedio) y utiliza el máximo del 
+cpu.
 """
 
 # -----------------------------------------------------------------------------
