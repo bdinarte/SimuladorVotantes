@@ -1,15 +1,20 @@
 # -----------------------------------------------------------------------------
 
 import os
+import sys
+
+ruta = os.path.abspath(__file__)
+ruta_base = os.path.split(ruta)[0]
+sys.path.append(ruta_base)
+
 from util.timeit import timeit
 from modelo.manejo_muestras import *
 
 # -----------------------------------------------------------------------------
 
-# Constantes para archivos
-
-RUTA_ACTAS = os.path.join("archivos", "actas.csv")
-RUTA_INDICADORES = os.path.join("archivos", "indicadores.csv")
+# Constantes para arch
+RUTA_ACTAS = os.path.join(ruta_base, "archivos", "actas.csv")
+RUTA_INDICADORES = os.path.join(ruta_base, "archivos", "indicadores.csv")
 
 # -----------------------------------------------------------------------------
 

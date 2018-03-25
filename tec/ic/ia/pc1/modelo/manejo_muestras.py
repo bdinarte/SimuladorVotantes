@@ -1,7 +1,10 @@
 # -----------------------------------------------------------------------------
 
+import os
+import sys
 import random
 from time import time
+
 from modelo.gen_randoms import *
 from modelo.manejo_archivos import *
 from modelo.manejo_consultas import *
