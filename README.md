@@ -10,7 +10,7 @@ Se debe instalar usando desde la terminal usando `pip` de la siguiente manera:
 
 Luego, para utilizarlo poder utilizarlo se debe importar al proyecto de la siguiente forma: 
 
-> from tec.ic.ia.pc1.g01 import generar_muestra_pais, generar_muestra_provincia
+> from tec.ic.ia.pc1.g03 import generar_muestra_pais, generar_muestra_provincia
 
 ### Incluir proyecto en PyPI
 El primer paso es registrarse en la página de [PYPI](https://pypi.org/). Luego se procede a crear un archivo llamando [setup.py](setup.py) Dentro de ese módulo se debe agregar la función con el msmo nombre. Esta función debe contener los argumentos presentados [aquí](https://packaging.python.org/tutorials/distributing-packages/#setup-args). A continuación, se debe instalar los siguiente paquetes: 
