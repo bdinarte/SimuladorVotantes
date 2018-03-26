@@ -38,7 +38,7 @@ def contar_votos_partidos(df_muestra):
 def ejecutar_analisis_muestra_pais(lista_muestra):
 
     ruta_base = os.path.join("..", "archivos")
-    ruta_votantes = os.path.join(ruta_base, "votantes.csv")
+    ruta_votantes = os.path.join(ruta_base, "ejemplo_de_salida.csv")
     ruta_conteo_votos = os.path.join(ruta_base, "conteo_votos.csv")
 
     # Se crear un Dataframe para poder nombrar las columnas y sea
