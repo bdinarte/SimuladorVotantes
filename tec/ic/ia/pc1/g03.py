@@ -47,4 +47,3 @@ def generar_muestra_provincia(n, nombre_provincia):
                                          RUTA_ACTAS, RUTA_INDICADORES)
 
 # -----------------------------------------------------------------------------
-
