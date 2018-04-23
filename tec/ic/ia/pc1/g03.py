@@ -14,6 +14,7 @@ from modelo.manejo_muestras import *
 
 # Constantes para arch
 RUTA_ACTAS = os.path.join(ruta_base, "archivos", "actas.csv")
+RUTA_ACTAS_R2 = os.path.join(ruta_base, "archivos", "actas_r2.csv")
 RUTA_INDICADORES = os.path.join(ruta_base, "archivos", "indicadores.csv")
 
 # -----------------------------------------------------------------------------
@@ -29,7 +30,8 @@ def generar_muestra_pais(n):
     votante)
     """
 
-    return generar_muestra_pais_aux(n, RUTA_ACTAS, RUTA_INDICADORES)
+    return generar_muestra_pais_aux(n, RUTA_ACTAS, RUTA_ACTAS_R2,
+                                    RUTA_INDICADORES)
 
 # -----------------------------------------------------------------------------
 
@@ -43,7 +45,7 @@ def generar_muestra_provincia(n, nombre_provincia):
     :return:
     """
 
-    return generar_muestra_provincia_aux(n, nombre_provincia,
-                                         RUTA_ACTAS, RUTA_INDICADORES)
+    return generar_muestra_provincia_aux(n, nombre_provincia, RUTA_ACTAS,
+                                         RUTA_ACTAS_R2, RUTA_INDICADORES)
 
 # -----------------------------------------------------------------------------

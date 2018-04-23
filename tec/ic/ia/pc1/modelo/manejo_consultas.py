@@ -68,7 +68,7 @@ def obtener_datos_juntas_provincia(df, provincia):
 # -----------------------------------------------------------------------------
 
 
-def obtener_opciones_voto(df):
+def obtener_opciones_voto(df, ronda2 = False):
     """
     A partir del dataframe de actas extrae todos los partidos,
     votos nulos y blancos
@@ -77,6 +77,9 @@ def obtener_opciones_voto(df):
     """
 
     partidos = df.columns.values.tolist()
+
+    if ronda2 == True:
+        return partidos[:len(partidos) - 1]
 
     # Los primeros dos corresponden a la columna Provincia y Canton.
     return partidos[2:len(partidos) - 1]
