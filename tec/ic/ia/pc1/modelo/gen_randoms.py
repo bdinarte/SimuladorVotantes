@@ -104,19 +104,16 @@ def random_edad():
 # -----------------------------------------------------------------------------
 
 
-def indicador(columna, positivo, negativo,
-              funcion_random=random_cero_cien):
+def indicador(columna, funcion_random=random_cero_cien):
     """
     Esta función se utiliza únicamente en random_indicadores, con el fin
     de acortar el tamaño de cada una de las líneas
     :param funcion_random: ej. random_cero_cien
     :param columna: donde se encuentra el valor por analizar. ej indicadores.M
-    :param positivo: ej. El votante SI tiene vivienda propia
-    :param negativo: ej. E; votante NO tiene vivienda propia
     :return: retornar el positivo o negativo según función_random
     """
 
-    return positivo if funcion_random(columna) else negativo
+    return 1 if funcion_random(columna) else 0
 
 # -----------------------------------------------------------------------------
 
@@ -146,36 +143,34 @@ def random_indicadores(indicadores, canton):
     # -------------------------------------------------------------------------
     # Porcentaje de la población urbana
 
-    es_urbano = indicador(columnas[9], 'URBANO', 'NO URBANO')
+    es_urbano = indicador(columnas[9])
 
     # -------------------------------------------------------------------------
     # Porcentaje de hombres por cada cien mujeres
 
-    sexo = indicador(columnas[10], 'M', 'F', random_sexo)
+    sexo = indicador(columnas[10], random_sexo)
 
     # -------------------------------------------------------------------------
     # Porcentaje de dependencia demográfica
 
     def f(porcent): return edad >= 65 and random_cero_cien(porcent)
-    es_dependiente = indicador(
-        columnas[11], 'DEPENDIENTE', 'NO DEPENDIENTE', f)
+    es_dependiente = indicador(columnas[11], f)
 
     # -------------------------------------------------------------------------
     # Porcentaje de viviendas en buen estado
 
-    vivienda_buena = indicador(columnas[12], 'V. BUEN ESTADO', 'V. MAL ESTADO')
+    vivienda_buena = indicador(columnas[12])
 
     # -------------------------------------------------------------------------
     # Porcentaje de viviendas hacinadas
 
-    vivienda_hacinada = indicador(
-        columnas[13], 'V. HACINADA', 'V. NO HACINADA')
+    vivienda_hacinada = indicador(columnas[13])
 
     # -------------------------------------------------------------------------
     # Porcentaje de Alfabetismo
 
     columna = columnas[14] if edad <= 24 else columnas[15]
-    alfabetismo = indicador(columna, 'ALFABETIZADO', 'NO ALFABETIZADO')
+    alfabetismo = indicador(columna)
 
     # -------------------------------------------------------------------------
     # Porcentaje de escolaridad
@@ -188,31 +183,29 @@ def random_indicadores(indicadores, canton):
     # Porcentaje de asistencia a la educación regular
 
     columna = columnas[18] if edad <= 24 else columnas[19]
-    educacion_regular = indicador(
-        columna, 'EN EDUCACION REGULAR', 'EDUCACION REGULAR INACTIVA')
+    educacion_regular = indicador(columna)
 
     # -------------------------------------------------------------------------
     # Tasa neta de participación
 
     columna = columnas[20] if sexo == 'M' else columnas[21]
-    es_empleado = indicador(columna, 'EMPLEADO', 'DESEMPLEADO')
+    es_empleado = indicador(columna)
 
     # -------------------------------------------------------------------------
     # Porcentaje de ser no asegurado
 
     columna = columnas[22] if es_empleado == 'EMPLEADO' else columnas[25]
-    es_asegurado = indicador(columna, 'ASEGURADO', 'NO ASEGURADO')
+    es_asegurado = indicador(columna)
 
     # -------------------------------------------------------------------------
     # Porcentaje de ser extranjero
 
-    es_extranjero = indicador(columnas[23], 'EXTRANJERO', 'NO EXTRANJERO')
+    es_extranjero = indicador(columnas[23])
 
     # -------------------------------------------------------------------------
     # Porcentaje de ser discapacitado
 
-    es_discapacitado = indicador(
-        columnas[24], 'DISCAPACITADO', 'NO DISCAPACITADO')
+    es_discapacitado = indicador(columnas[24])
 
     # -------------------------------------------------------------------------
 

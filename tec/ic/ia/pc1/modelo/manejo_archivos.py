@@ -65,7 +65,7 @@ def leer_csv_sin_encabezado(ruta_csv):
 
 def guardar_como_csv(df, nombre_archivo):
     """
-    Escribe una lista de lista en un csv como si fuese una tabla
+    Escribe un dataframe en un csv como si fuese una tabla
     :param df: Dataframe a guarda
     :param nombre_archivo: ruta + nombre del archivo
     """
